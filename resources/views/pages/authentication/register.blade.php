@@ -87,7 +87,6 @@
                         <input type="password" id="confirmPassword" placeholder="Confirm Password" class="rounded-3 mb-4" name="ConfirmPassword" value="{{ old('ConfirmPassword') }}">
                         <label for="confirmPassword">Password Confirm</label>
                     </div>
-            
                     <div class="line-container d-flex justify-content-center">
                         <div style=" border: 1px solid #3a3a3a; width: 250px;"></div>
                     </div>
