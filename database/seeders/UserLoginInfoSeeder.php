@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\UserLoginInfo;
+use App\Models\UserLoginInfos;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +13,7 @@ class UserLoginInfoSeeder extends Seeder
      */
     public function run(): void
     {
-        UserLoginInfo::create([
+        UserLoginInfos::create([
             'user_id' => 123993842,
             'name' => 'Alexander Rex',
             'username' => 'rexxy',
