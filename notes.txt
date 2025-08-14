@@ -1,0 +1,9 @@
+// Making Form Request
+php artisan make:request YourRequestName 
+
+// Running Seed
+php artisan db:seed --class=UserSeeder
+
+
+// Create Middleware
+php artisan make:middleware CheckAge
