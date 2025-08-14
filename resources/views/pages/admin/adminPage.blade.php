@@ -43,13 +43,13 @@
                     <div class="col p-0 d-flex justify-content-center grd-container">
                         <div class="dropdown d-flex justify-content-center" id="dropdown1">
                             <div class="dropdown-toggle section-dropdown" id="1">GRADE 1 SECTIONS </div>
-                            <div class="dropdown-menu grade-1"></div>
+                            <div class="dropdown-menus grade-1"></div>
                         </div>
                     </div>
                     <div class="col p-0 d-flex justify-content-center grd-container">
                         <div class="dropdown d-flex justify-content-center" id="dropdown1">
                             <div class="dropdown-toggle section-dropdown" id="2">GRADE 2 SECTIONS </div>
-                            <div class="dropdown-menu grade-2"></div>
+                            <div class="dropdown-menus grade-2"></div>
                         </div>
                     </div>
                 </div>
@@ -57,13 +57,13 @@
                     <div class="col p-0 d-flex justify-content-center grd-container">
                         <div class="dropdown d-flex justify-content-center" id="dropdown1">
                             <div class="dropdown-toggle section-dropdown" id="3">GRADE 3 SECTIONS </div>
-                            <div class="dropdown-menu grade-3"></div>
+                            <div class="dropdown-menus grade-3"></div>
                         </div>
                     </div>
                     <div class="col p-0 d-flex justify-content-center grd-container">
                         <div class="dropdown d-flex justify-content-center" id="dropdown1">
                             <div class="dropdown-toggle section-dropdown" id="4">GRADE 4 SECTIONS </div>
-                            <div class="dropdown-menu grade-4"></div>
+                            <div class="dropdown-menus grade-4"></div>
                         </div>
                     </div>
                 </div>
@@ -71,13 +71,13 @@
                     <div class="col p-0 d-flex justify-content-center grd-container">
                         <div class="dropdown d-flex justify-content-center" id="dropdown1">
                             <div class="dropdown-toggle section-dropdown" id="5">GRADE 5 SECTIONS </div>
-                            <div class="dropdown-menu grade-5"></div>
+                            <div class="dropdown-menus grade-5"></div>
                         </div>
                     </div>
                     <div class="col p-0 d-flex justify-content-center grd-container">
                         <div class="dropdown d-flex justify-content-center" id="dropdown1">
                             <div class="dropdown-toggle section-dropdown" id="6">GRADE 6 SECTIONS </div>
-                            <div class="dropdown-menu grade-6"></div>
+                            <div class="dropdown-menus grade-6"></div>
                         </div>
                     </div>
                 </div>

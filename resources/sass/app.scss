@@ -879,17 +879,18 @@ input:not(:placeholder-shown) + label {
     border-radius: 5px;
 }
 
-.dropdown-menu {
+.dropdown-menus {
     display: none;
     position: absolute;
-    background-color: #cfe9f1;
+    top: 45px;
+    background-color: #B3CDE0;
     border: 1px solid #0077a6;
     width: 400px;
     z-index: 1;
     animation: fadeIn 0.3s ease-in-out;
 }
 
-.dropdown-menu div {
+.dropdown-menus div {
     display: block;
     padding: 10px 15px;
     color: #000;
@@ -898,12 +899,12 @@ input:not(:placeholder-shown) + label {
     text-align: center;
 }
 
-.dropdown-menu div:hover {
+.dropdown-menus div:hover {
     background-color: #b3d8e7;
     cursor: pointer;
 }
 
-.dropdown.show .dropdown-menu {
+.dropdown.show .dropdown-menus {
     display: block;
 }
 
