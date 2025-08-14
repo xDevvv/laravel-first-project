@@ -38,6 +38,10 @@ return new class extends Migration
         Schema::table('admins', function (Blueprint $table) {
             $table->timestamps();
         });
+
+        Schema::table('user_login_infos', function (Blueprint $table) {
+            $table->timestamps();
+        });
     }
 
     /**
