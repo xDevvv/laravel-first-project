@@ -87,10 +87,10 @@ function fetchStudent(gradeLvl, section) {
     .then(datas => {
         document.querySelector('.student-table-container').innerHTML = `
             <div class="table-list d-sm-none d-lg-block">
-                <table class="d-block rounded-table" style="border-radius: 10px; ">
-                    <thead>
+                <table class="rounded-table" style="border-radius: 10px;">
+                    <thead class="text-center">
                         <tr>
-                            <th scope="col" style="border-right: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);"></th>
+                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col"></th>
                             <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">Student Name</th>
                             <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">School Supplies</th>
                             <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">P.E Shirt Size</th>
@@ -98,6 +98,7 @@ function fetchStudent(gradeLvl, section) {
                             <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">Polo / Blouse Size</th>
                             <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">Slacks / Skirts Size</th>
                             <th style="text-align: center; border-left: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">Shoe Size</th>
+                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col"></th>
                         </tr>
                     </thead>
                     <tbody class="student-table-body">
