@@ -100,11 +100,12 @@ class AdminController extends Controller
     }
 
     public function declineRequest($id) {
-        $pendingUser = PendingUsers::find('pending_user_id', $id);
+        
+        $pendingUser = PendingUsers::find($id);
 
         if($pendingUser) 
         {
-            $pendingUser->where('id', $id)->delete();
+            PendingUsers::where('pending_user_id', $pendingUser['pending_user_id'])->delete();
             return redirect()->route('admin.pendingRequests')->with('success', 'Request Decline Successfully!');
         }
         else 
