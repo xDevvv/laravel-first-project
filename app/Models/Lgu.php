@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lgu extends Model
 {
+    protected $primaryKey = 'lgu_id';
+    public $incrementing = false;
+    
+    protected $table = 'lgus';
     /** @use HasFactory<\Database\Factories\LguFactory> */
     use HasFactory;
 

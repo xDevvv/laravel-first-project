@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class PendingUsers extends Model
 {
+    protected $primaryKey = 'pending_user_id';
+    public $incrementing = false;
+    
+    protected $table = 'pending_users';
+
     /** @use HasFactory<\Database\Factories\PendingUsersFactory> */
     use HasFactory;
 

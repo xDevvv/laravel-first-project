@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class ApprovedUser extends Model
 {
+    protected $primaryKey = 'approved_user_id';
+    public $incrementing = false;
+    
+    protected $table = 'approved_users';
+
     /** @use HasFactory<\Database\Factories\ApprovedUserFactory> */
     use HasFactory;
 

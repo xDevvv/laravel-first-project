@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Students extends Model
 {
+    protected $primaryKey = 'student_id';
+    public $incrementing = false;
+    
+    protected $table = 'students';
     /** @use HasFactory<\Database\Factories\StudentsFactory> */
     use HasFactory;
 

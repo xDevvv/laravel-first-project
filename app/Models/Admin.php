@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Admin extends Model
 {
+
+    protected $primaryKey = 'admin_id';
+    public $incrementing = false;
+    
+    protected $table = 'admins';
+
     /** @use HasFactory<\Database\Factories\AdminFactory> */
     use HasFactory;
 

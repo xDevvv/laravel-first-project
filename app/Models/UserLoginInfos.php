@@ -9,9 +9,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class UserLoginInfos extends Authenticatable
 {
 
-    protected $primaryKey = 'username';
+    protected $primaryKey = 'user_id';
     public $incrementing = false;
-    protected $keyType = 'string';
     
     protected $table = 'user_login_infos';
     /** @use HasFactory<\Database\Factories\UserLoginInfoFactory> */
