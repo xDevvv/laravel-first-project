@@ -14,7 +14,6 @@ document.querySelectorAll('.dropdown-toggle').forEach(button => {
     });
 });
 
-
 const dropDown = document.querySelectorAll('.dropdown-toggle')
 
 if(dropDown !== null) {
@@ -97,7 +96,7 @@ function fetchStudent(gradeLvl, section) {
                             <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">P.E Pants Size</th>
                             <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">Polo / Blouse Size</th>
                             <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">Slacks / Skirts Size</th>
-                            <th style="text-align: center; border-left: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">Shoe Size</th>
+                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">Shoe Size</th>
                             <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col"></th>
                         </tr>
                     </thead>
@@ -151,16 +150,14 @@ function fetchStudent(gradeLvl, section) {
         });
         
         document.getElementById('print').addEventListener('click', () => {
+            const printContents = document.querySelector('.student-table-container').innerHTML;
+            const originalContents = document.body.innerHTML;
 
-                const printContents = document.querySelector('.student-table-container').innerHTML;
-                const originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
 
-                document.body.innerHTML = printContents;
-                window.print();
-                document.body.innerHTML = originalContents;
-
-                window.location.reload();
-            
+            window.location.reload();
         });
     }).catch(error => console.log(error))
 }
