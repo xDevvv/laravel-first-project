@@ -1,4 +1,405 @@
 
+
+const userDetailsBtn = document.querySelectorAll('.details-btn');
+
+const tableContainer = document.querySelector('.table-columns');
+
+if(userDetailsBtn != null) {
+
+    userDetailsBtn.forEach(btn => {
+        btn.addEventListener('click', async () => {
+
+            const userId = btn.getAttribute('id');
+            
+            const response = await fetch(`request/details/${userId}`);
+            const data = await response.json();
+
+            let modal = `
+                <div class="modal fade" id="user-details" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content modal-container">
+                            <div class="modal-body">
+                                <div class="d-none d-lg-block row my-2 d-lg-flex justify-content-center align-items-baseline gap-2 px-2">
+                                    <div class="col text-center">
+                                        <strong>Name: </strong>
+                                    </div>
+                                    <div class="col d-sm-flex justify-content-center">
+                                        <strong>ID Number: </strong>
+                                    </div>
+                                    <div class="col d-sm-flex justify-content-center">
+                                        <strong>Role: </strong>
+                                    </div>
+                                </div>
+                                <div class="row my-2 d-flex justify-content-center align-items-baseline gap-2 px-2">
+                                    <div class="col input-column p-0 d-flex justify-content-center flex-column">
+                                        <strong class="d-md-block d-lg-none">Name: </strong>
+                                        <input type="text" class="" value="${data.name}" readonly id="name">
+                                    </div>
+                                    <div class="col input-column p-0 d-flex justify-content-center flex-column">
+                                        <strong class="d-md-block d-lg-none">ID Number: </strong>
+                                        <input type="text" class="" value="${data.pending_user_id}" readonly id="id">
+                                    </div>
+                                    <div class="col input-column p-0 d-flex justify-content-center flex-column">
+                                        <strong class="d-md-block d-lg-none">Role: </strong>
+                                        <input type="text" class="" value="${data.role}" readonly id="role">
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary close-modal">Close</button>
+                                <button type="button" class="btn btn-primary accept-user">Accept User</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            tableContainer.insertAdjacentHTML('afterbegin', modal);
+
+            const modalElement = document.getElementById('user-details');
+            const bootstrapModal = new bootstrap.Modal(modalElement);
+
+            bootstrapModal.show();
+
+            if(data.role === 'teacher') {
+                document.querySelector('.modal-body').insertAdjacentHTML('beforeend', `
+                    <div class="row mb-2 mt-4 d-flex justify-content-center align-items-baseline gap-2 px-2">
+                        <div class="col text-center flex-grow-1">
+                            <strong>Grade Level: </strong>
+                        </div>
+                        <div class="col d-flex justify-content-center flex-grow-1">
+                            <strong>Section: </strong>
+                        </div>
+                        <div class="email-input-label d-lg-flex d-sm-none col justify-content-center">
+                            <strong>Email: </strong>
+                        </div>
+                    </div>
+                    <div class="row my-2 d-flex justify-content-center align-items-baseline gap-2 px-2">
+                        <div class="col input-column p-0 d-flex justify-content-center flex-column">
+                            <select class="select-status" id="grade_level">
+                                <option value="" hidden>-- Choose --</option>
+                                <option value="1">Grade 1</option>
+                                <option value="2">Grade 2</option>
+                                <option value="3">Grade 3</option>
+                                <option value="4">Grade 4</option>
+                                <option value="5">Grade 5</option>
+                                <option value="6">Grade 6</option>
+                            </select>
+                            <div class="input-grade_level-error hide">*Set Grade Level to verify user </div>
+                        </div>
+                        <div class="col input-column p-0 d-flex justify-content-center flex-column">
+                            <select class="select-status" id="section" disabled required>
+                                <option value="" hidden>-- Choose --</option>
+                            </select>
+                            <div class="input-section-error hide">*Set Section to verify user </div>
+                        </div>
+                        <div class="col input-column p-0 d-flex justify-content-center flex-column">
+                            <strong class="d-sm-block d-lg-none" >Email: </strong>
+                            <input type="text" value="${data.email}" placeholder="Set Email" id="email">
+                        </div>
+                    </div>
+                    <div class="row mt-4 d-flex justify-content-center align-items-baseline">
+                        <div class="col-4 input-column p-0 d-flex justify-content-center flex-column">
+                            <select class="select-status" id="status">
+                                <option value="" selected>Unverified</option>
+                                <option value="verified">Verified</option>
+                            </select>
+                            <div class="input-select-error hide">*Verify User</div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col">
+                            <strong>School: </strong>National Teacher College
+                        </div>
+                    </div>
+                `);
+
+                // Check if the Grade Level is selected before enabling the section option
+                
+                const gradeLevelOption = document.getElementById('grade_level');
+                const sectionOption = document.querySelector('#section');
+                
+                console.log(gradeLevelOption, sectionOption);
+                gradeLevelOption.addEventListener('change' , async () => {
+                    if(gradeLevelOption.value != '') {
+
+                        sectionOption.disabled = false;
+
+                        const id = gradeLevelOption.value;
+
+                        // Remove the last options
+                        for(let i = sectionOption.length - 1; i > 0; i--) {
+                            sectionOption.remove(i);
+                        }
+
+                        fetch(`request/sections/available/${id}`)
+                        .then(response => response.json())
+                        .then(result => {
+                            result.forEach((data) => {
+
+                            const option = document.createElement('option')
+                            option.value = data.section_name;
+                            option.textContent = data.section_name;
+
+                            sectionOption.append(option);
+                            }); 
+                        }); 
+                    }
+                });
+            }
+
+
+            if(data.role === 'lgu') {
+                document.querySelector('.modal-body').insertAdjacentHTML('beforeend', `
+                    <div class="lgu-label row mb-2 mt-4 d-lg-flex d-sm-none justify-content-center align-items-baseline gap-2 px-2">
+                        <div class="col d-flex justify-content-center">
+                            <strong>Area: </strong>
+                        </div>
+                        <div class="col d-flex justify-content-center">
+                            <strong>Type: </strong>
+                        </div>
+                        <div class="col d-flex justify-content-center">
+                            <strong>Email: </strong>
+                        </div>
+                    </div>
+                    <div class="row my-2 d-flex justify-content-center align-items-baseline gap-2 px-2">
+                        <div class="col input-column p-0 d-flex justify-content-center flex-column">
+                            <strong class="d-sm-block d-lg-none">Email: </strong>
+                            <input type="text" required placeholder="Set Area" id="area">
+                            <div class="input-area-error hide">*Set Area to verify user </div>
+                        </div>
+                        <div class="col input-column p-0 d-flex justify-content-center flex-column">
+                            <strong class="d-sm-block d-lg-none">Type: </strong>
+                            <input type="text" required placeholder="Set LGU Type" id="lgu_type">
+                            <div class="input-lgu_type-error hide">*Set LGU Type to verify user </div>
+                        </div>
+                        <div class="col input-column p-0 d-flex justify-content-center flex-column">
+                            <strong class="d-sm-block d-lg-none">Email: </strong>
+                            <input type="text" value="${data.email}" placeholder="Set Email" id="email">
+                        </div>
+                    </div>
+                    <div class="row mt-4 d-flex justify-content-center align-items-baseline">
+                        <div class="col-4 input-column p-0 d-flex justify-content-center flex-column">
+                            <select class="select-status" id="status"> 
+                                <option value="" selected>Unverified</option>
+                                <option value="verified">Verified</option>
+                            </select>
+                            <div class="input-select-error hide">*Verify User</div>
+                        </div>
+                    </div>
+                `);
+            }
+
+            const closeModal = document.querySelectorAll('.close-modal');
+
+            closeModal.forEach((btn) => {
+                btn.addEventListener('click', () => {
+
+                    // Hide the modal
+                    const modalElement = document.getElementById('user-details');
+                    const bootstrapModal = bootstrap.Modal.getInstance(modalElement);
+                    bootstrapModal.hide();
+
+                    // Remove the modal from the DOM
+                    tableContainer.removeChild(modalElement);
+                });
+            });
+
+            const acceptUser = document.querySelector('.accept-user');
+            acceptUser.addEventListener('click', () => {
+                const username = data.username;
+                const password = data.password;
+                const name = document.getElementById('name').value.trim();
+                const id = document.getElementById('id').value.trim();
+                const role = document.getElementById('role').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const status = document.getElementById('status').value.trim();
+
+                // LGU
+                if(data.role == 'lgu') {
+
+                    const isValidArea = toggleError('area', '.input-area-error');
+                    const isValidStatus = toggleError('status', '.input-select-error');
+                    const isValidLguType = toggleError('lgu_type', '.input-lgu_type-error');
+                    
+                    if(isValidArea && isValidStatus && isValidLguType && status == 'verified') {
+
+                        
+                        const area = document.getElementById('area').value.trim();
+                        const lguType = document.getElementById('lgu_type').value.trim();
+
+                        fetch(`request/accept/${userId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                username: username,
+                                password: password,
+                                id: id,
+                                name: name,
+                                email: email,
+                                role: role,
+                                lguType: lguType,
+                                area: area,
+                                status: status
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            
+                            if(data.redirect && data.success) {
+                                
+                                document.querySelector('.modal-container').insertAdjacentHTML('afterbegin', `
+
+                                    <div class="container-fluid pt-3">
+                                        <div class="row d-flex justify-content-center error-modal-handler">
+                                            <div class="col-5">
+                                                <div class="alert alert-success alert-dismissible fade show error-modal" role="alert">
+                                                    Request Approved Successfully!
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `)
+                                
+                                document.querySelector('.accept-user').disabled = true;
+
+                                setTimeout(() => {
+                                    window.location.href = data.redirect;
+                                }, 3000);
+                            }
+
+                            if(data.redirect && data.error) {
+                                document.querySelector('.modal-container').insertAdjacentHTML('afterbegin', `
+
+                                    <div class="container-fluid pt-3">
+                                        <div class="row d-flex justify-content-center error-modal-handler">
+                                            <div class="col-5">
+                                                <div class="alert alert-success alert-dismissible fade show error-modal" role="alert">
+                                                    Request Approved Successfully!
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `)
+                                
+                                document.querySelector('.accept-user').disabled = true;
+
+                                setTimeout(() => {
+                                    window.location.href = data.redirect;
+                                }, 3000);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Fetch error:', error);
+                        });
+                    }
+                }
+                
+                // Teacher
+                if(data.role == 'teacher') {
+
+                    const gradeLevel = document.getElementById('grade_level').value.trim();
+                    const section = document.getElementById('section').value.trim();
+
+                    const isValidGradeLevel = toggleError('grade_level', '.input-grade_level-error');
+                    const isValidSection = toggleError('section', '.input-section-error');
+                    const isValidStatus = toggleError('status', '.input-select-error');
+
+                    if(isValidGradeLevel && isValidSection && isValidStatus && status == 'verified') {
+
+                        let errorChecker;
+
+                        fetch(`request/accept/${userId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                username: username,
+                                password: password,
+                                id: id,
+                                name: name,
+                                email: email,
+                                role: role,
+                                grade_level: gradeLevel,
+                                section: section,
+                                status: status
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            if(data.redirect && data.success) {
+                                
+                                document.querySelector('.modal-container').insertAdjacentHTML('afterbegin', `
+
+                                    <div class="container-fluid pt-3">
+                                        <div class="row d-flex justify-content-center error-modal-handler">
+                                            <div class="col-5">
+                                                <div class="alert alert-success alert-dismissible fade show error-modal" role="alert">
+                                                    Request Approved Successfully!
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `)
+                                
+                                document.querySelector('.accept-user').disabled = true;
+
+                                setTimeout(() => {
+                                    window.location.href = data.redirect;
+                                }, 3000);
+                            }
+
+                            if(data.redirect && data.error) {
+                                document.querySelector('.modal-container').insertAdjacentHTML('afterbegin', `
+
+                                    <div class="container-fluid pt-3">
+                                        <div class="row d-flex justify-content-center error-modal-handler">
+                                            <div class="col-5">
+                                                <div class="alert alert-success alert-dismissible fade show error-modal" role="alert">
+                                                    Request Approved Successfully!
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `)
+                                
+                                document.querySelector('.accept-user').disabled = true;
+
+                                setTimeout(() => {
+                                    window.location.href = data.redirect;
+                                }, 3000);
+                            }
+                        }).catch(error => console.error(`Fetch Error ${error}`))
+                    }
+                }
+            })
+        });
+    });
+}
+
+function toggleError(input, errorElement) {
+    
+    let value = document.getElementById(`${input}`).value.trim();
+    let errorEl = document.querySelector(`${errorElement}`);
+
+    if (value !== '') {
+        errorEl.classList.add('hide');
+        return true;
+    } else {
+        errorEl.classList.remove('hide');
+        return false;
+    }
+
+}
+
 // Request Notification in Navbar
 const pendingUserContainer = document.querySelector('.notification-count');
 
