@@ -20,7 +20,7 @@ class AuthenticationController extends Controller
         $id = 0;
 
         if(Str::of($validatedData['role'])->trim() == 'teacher') {$id = rand(400000000, 499999999);}
-        if(Str::of($validatedData['role'])->trim() == 'admin') {$id = rand(300000000, 399999999);}
+        if(Str::of($validatedData['role'])->trim() == 'lgu') {$id = rand(300000000, 399999999);}
         
 
         PendingUsers::create([
