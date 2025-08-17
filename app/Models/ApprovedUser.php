@@ -16,8 +16,9 @@ class ApprovedUser extends Model
     use HasFactory;
 
     protected $fillable = [
+        'approved_user_id',
         'name',
-        'email',
-        'date_approved',
+        'role',
+        'date_approved'
     ];
 }

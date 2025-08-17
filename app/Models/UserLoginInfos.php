@@ -17,9 +17,9 @@ class UserLoginInfos extends Authenticatable
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'name',
         'username',
-        'email',
         'role',
         'password'
     ];

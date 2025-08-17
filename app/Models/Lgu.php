@@ -15,6 +15,7 @@ class Lgu extends Model
     use HasFactory;
 
     protected $fillable = [
+        'lgu_id',
         'name',
         'email',
         'role',
