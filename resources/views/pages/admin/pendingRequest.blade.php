@@ -2,9 +2,9 @@
 
 
 @section('adminNavBarList')
-    <li><a href="/admin">Home</a></li>
-    <li><a href="/request">Request</a></li>
-    <li><a href="/logout">Logout</a></li>
+    <li><a href="/admin_user">Home</a></li>
+    <li><a href="/request_user">Request</a></li>
+    <li><a href="/logout_user">Logout</a></li>
 @endsection
 
 @section('pendingRequestsCount')
@@ -57,8 +57,8 @@
             </div>
             <div class="container-fluid table-columns">
                 <div class="row mx-3 d-flex flex-row align-items-center table-col-container">
-                    <div class="name-header-container col col-sm-6 col-md-3 d-flex flex-sm-grow-1 justify-content-center p-0">
-                        Name
+                    <div class="name-header-container col-sm-6 col-md-3 d-flex flex-sm-grow-1 justify-content-center p-0">
+                        Name 
                     </div>
                     <div class="id-header-container d-sm-none col-md-3 d-md-flex flex-grow-1 justify-content-center p-0">
                         ID Number
@@ -83,8 +83,8 @@
                                 {{ $user['role'] }}
                             </div>
                             <div class="col d-flex justify-content-center align-items-center gap-3">
-                                <a class="btn btn-danger decline-btn" href="/request/{{ $user['id'] }}" role="button" >Decline</a>
-                                <a class="btn btn-success details-btn" role="button" id="{{ $user['id'] }}">Details</a>
+                                <a class="btn btn-danger decline-btn" href="/request/decline/{{ $user['pending_user_id'] }}" role="button" >Decline</a>
+                                <a class="btn btn-success details-btn" role="button" id="{{ $user['pending_user_id'] }}">Details</a>
                             </div>
                         </div>
                     @endforeach

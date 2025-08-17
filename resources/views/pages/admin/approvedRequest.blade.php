@@ -3,7 +3,7 @@
 @section('adminNavBarList')
     <li><a href="/admin">Home</a></li>
     <li><a href="/request">Request</a></li>
-    <li><a href="/logout">Logout</a></li>
+    <li><a href="/logout_user">Logout</a></li>
 @endsection
 
 @section('pendingRequestsCount')
