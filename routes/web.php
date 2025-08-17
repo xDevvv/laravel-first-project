@@ -8,14 +8,12 @@ use App\Http\Controllers\LguController;
 use App\Http\Controllers\TeacherController;
 
 use Illuminate\Support\Facades\Route;
-
+ 
 
 // Register - Login - Logout Handler
 Route::post('/register_user', [AuthenticationController::class, 'register'])->name('register.submit');
 Route::post('/login_user', [AuthenticationController::class, 'login'])->name('login.submit');
 Route::get('/logout_user', [AuthenticationController::class, 'logout']);
-
-
 
 
 Route::middleware('is_login')->group(function () {
@@ -46,7 +44,7 @@ Route::middleware(['is_logout'])->group(function () {
 
 Route::middleware('is_admin_user')->group(function () {
     // Admin Functionality
-    Route::post('request/accept/{id}', [AdminController::class, 'acceptRequest']);
+    Route::post('/request/accept/{id}', [AdminController::class, 'acceptRequest'])->name('admin.acceptRequest');
     Route::get('request/decline/{id}', [AdminController::class, 'declineRequest']);
     Route::get('request/details/{id}', [AdminController::class, 'requestDetails']);
     Route::get('request/sections/available/{id}', [AdminController::class, 'fetchAvailableSections']);
