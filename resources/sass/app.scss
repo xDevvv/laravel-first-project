@@ -962,6 +962,8 @@ input:not(:placeholder-shown) + label {
     z-index: 2;
 }
 
+
+
 // Admin Request (Modal Error)
 
 
@@ -1491,6 +1493,10 @@ input:not(:placeholder-shown) + label {
     .print-btn {
         display: flex;
         justify-content: end;
+    }
+
+    .table-col-container > div {
+        width: auto;
     }
 
     button,
