@@ -45,30 +45,23 @@ class AdminController extends Controller
 
     public function acceptRequest(StoreAcceptRequest $request, $id)
     {
-        $pendingUser = new PendingUsers();
         $validatedData = $request->validated();
-        $validatedData['veriication_date'] = date('Y-m-d');
 
         $userLoginData = collect($validatedData)
             ->except(['username', 'password', 'status'])
             ->toArray();
 
-        $pendingUser = PendingUsers::find('pending_user_id', $id);
+        $pendingUser = PendingUsers::find($id);
 
         if(!$pendingUser || !in_array($pendingUser['role'], ['lgu', 'teacher'])) {
-            return response()->json([
-                'redirect' => url('/request'),
-                'error'    => 'Request Denied!'
-            ]);
+            return response()->json(['success'    => false,'redirect' => url('/request')]);
         }
 
-        if($validatedData['role'] == 'lgu' && $pendingUser) {
-            Lgu::create($userLoginData);
-        }
-
-        if($validatedData['role'] == 'teacher' && $pendingUser) {
-            Teacher::create($userLoginData);
-        }
+        ApprovedUser::create([
+            'approved_user_id' => $pendingUser['pending_user_id'],
+            'name' => $pendingUser['name'],
+            'role' => $pendingUser['role'],
+        ]);
 
         UserLoginInfos::create([
             'user_id' => $pendingUser['pending_user_id'],
@@ -79,24 +72,33 @@ class AdminController extends Controller
             'email' => $pendingUser['email'],
         ]);
 
-        ApprovedUser::create([
-            'name' => $pendingUser['name'],
-            'id' => $pendingUser['id'],
-            'role' => $pendingUser['role'],
-            'date_approved' => date('l, F j, Y')
-        ]);
+        if($validatedData['role'] == 'lgu' && $pendingUser) {
+            Lgu::create([
+                'lgu_id' => $pendingUser['pending_user_id'],
+                'name' => $pendingUser['name'],
+                'email' => $pendingUser['email'],
+                'role' => $pendingUser['role'],
+                'lgu_type' => $validatedData['lgu_type'],
+                'area' => $validatedData['area'],
+            ]);
+        }
 
+        if($validatedData['role'] == 'teacher' && $pendingUser) {
+            Teacher::create([
+                'teacher_id' => $pendingUser['pending_user_id'],
+                'name' => $pendingUser['name'],
+                'email' => $pendingUser['email'],
+                'role' => $pendingUser['role'],
+                'grade_level' => $validatedData['grade_level'],
+                'section' => $validatedData['section'],
+            ]);
+
+        }
 
         // Delete the pending user record
-        $pendingUser->where('id', $id)->delete();
+        PendingUsers::where('pending_user_id', $id)->delete();
 
-        return response()->json(
-            [
-                'redirect' => url('/request'),
-                'success' => 'Request Approve Successfully!'
-            ]
-        );
-
+        return response()->json(['success' => true, 'url' => url('/request')]);
     }
 
     public function declineRequest($id) {
@@ -115,7 +117,8 @@ class AdminController extends Controller
     }
 
     public function requestDetails($id) {
-        $user = PendingUsers::find('pending_user_id', $id);
+
+        $user = PendingUsers::find($id);
         try 
         {
             if(!$user) return redirect()->route('admin.pendingRequests')->with('error', 'Request Not Found!!');
@@ -131,8 +134,9 @@ class AdminController extends Controller
 
         $availableSections = Sections::where([
             'grade_level'   => $id,
-            'assign_teacher' => ''
+            'assigned_teacher_id' => null
         ])->get();
+        
 
         return response()->json($availableSections);
     }
