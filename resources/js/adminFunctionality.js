@@ -1,5 +1,4 @@
 
-
 const userDetailsBtn = document.querySelectorAll('.details-btn');
 
 const tableContainer = document.querySelector('.table-columns');
@@ -47,7 +46,7 @@ if(userDetailsBtn != null) {
                             </div>    
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary close-modal">Close</button>
-                                <button type="button" class="btn btn-primary accept-user">Accept User</button>
+                                <button type="submit" class="btn btn-primary accept-user">Accept User</button>
                             </div>
                         </div>
                     </div>
@@ -231,7 +230,8 @@ if(userDetailsBtn != null) {
                         fetch(`request/accept/${userId}`, {
                             method: 'POST',
                             headers: {
-                                'Content-Type': 'application/json'
+                                'Content-Type': 'application/json',
+                                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
                             },
                             body: JSON.stringify({
                                 username: username,
@@ -243,7 +243,8 @@ if(userDetailsBtn != null) {
                                 lguType: lguType,
                                 area: area,
                                 status: status
-                            })
+                            }),
+                            credentials: "same-origin"
                         })
                         .then(response => response.json())
                         .then(data => {
@@ -313,10 +314,11 @@ if(userDetailsBtn != null) {
 
                         let errorChecker;
 
-                        fetch(`request/accept/${userId}`, {
+                        fetch(`/request/accept/${userId}`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
+                                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
                             },
                             body: JSON.stringify({
                                 username: username,
@@ -328,12 +330,13 @@ if(userDetailsBtn != null) {
                                 grade_level: gradeLevel,
                                 section: section,
                                 status: status
-                            })
+                            }),
+                            credentials: "same-origin"
                         })
-                        .then(response => response.json())
+                        .then(response => response.json())                
                         .then(data => {
                             console.log(data);
-                            if(data.redirect && data.success) {
+                            if(data.success) {
                                 
                                 document.querySelector('.modal-container').insertAdjacentHTML('afterbegin', `
 
@@ -352,11 +355,11 @@ if(userDetailsBtn != null) {
                                 document.querySelector('.accept-user').disabled = true;
 
                                 setTimeout(() => {
-                                    window.location.href = data.redirect;
+                                    window.location.href = data.url;
                                 }, 3000);
                             }
 
-                            if(data.redirect && data.error) {
+                            if(!data.success) {
                                 document.querySelector('.modal-container').insertAdjacentHTML('afterbegin', `
 
                                     <div class="container-fluid pt-3">
@@ -374,7 +377,7 @@ if(userDetailsBtn != null) {
                                 document.querySelector('.accept-user').disabled = true;
 
                                 setTimeout(() => {
-                                    window.location.href = data.redirect;
+                                    window.location.href = data.url;
                                 }, 3000);
                             }
                         }).catch(error => console.error(`Fetch Error ${error}`))
