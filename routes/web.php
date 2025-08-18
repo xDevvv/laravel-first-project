@@ -38,7 +38,7 @@ Route::middleware(['is_logout'])->group(function () {
     Route::get('student_information', [TeacherController::class, 'studentInformation'])->name('teacher.studentInformation');
 
     // LGU Pages Routes
-    Route::get('lgu_dashboard', [LguController::class, 'dashboard'])->name('lgu.dashboard');
+    Route::get('lgu', [LguController::class, 'dashboard'])->name('lgu.dashboard');
 });
 
 
