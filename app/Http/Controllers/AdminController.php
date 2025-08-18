@@ -54,7 +54,7 @@ class AdminController extends Controller
         $pendingUser = PendingUsers::find($id);
 
         if(!$pendingUser || !in_array($pendingUser['role'], ['lgu', 'teacher'])) {
-            return response()->json(['success'    => false,'redirect' => url('/request')]);
+            return response()->json(['success' => false,'redirect' => url('/request')]);
         }
 
         ApprovedUser::create([
@@ -78,8 +78,8 @@ class AdminController extends Controller
                 'name' => $pendingUser['name'],
                 'email' => $pendingUser['email'],
                 'role' => $pendingUser['role'],
-                'lgu_type' => $validatedData['lgu_type'],
-                'area' => $validatedData['area'],
+                'lgu_type' => $userLoginData['lgu_type'],
+                'area' => $userLoginData['area'],
             ]);
         }
 
@@ -89,10 +89,16 @@ class AdminController extends Controller
                 'name' => $pendingUser['name'],
                 'email' => $pendingUser['email'],
                 'role' => $pendingUser['role'],
-                'grade_level' => $validatedData['grade_level'],
-                'section' => $validatedData['section'],
+                'grade_level' => $userLoginData['grade_level'],
+                'section' => $userLoginData['section'],
             ]);
 
+            // $sectionsTable = Sections::where([
+            //     'grade_level' => $userLoginData['grade_level'],
+            //     'section' => $userLoginData['section']
+            // ])->first();
+
+            // if($sectionsTable) $sectionsTable->update(['assigned_teacher_id' => $pendingUser['pending_user_id']]);
         }
 
         // Delete the pending user record
