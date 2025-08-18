@@ -8,31 +8,33 @@ use App\Models\Students;
 use Illuminate\Support\Facades\Auth;
 
 class TeacherController extends Controller
-{
+{   
+
     public function dashboard()
     {
-        $teacher = Teacher::find(Auth::user()->id);
+        $teacher = Teacher::where('teacher_id', Auth::user()->user_id)->first();
 
         $data['students'] =    Students::where('grade_level', $teacher['grade_level'])
                                             ->where('section', $teacher['section'])
-                                            ->findAll();
+                                            ->get();
 
-        $data['boys'] = count(Students::where('gender', 'Male')
+        $data['boys']     = count(Students::where('gender', 'Male')
                                             ->where('grade_level', $teacher['grade_level'])
                                             ->where('section', $teacher['section'])
-                                            ->findAll());
+                                            ->get());
 
-        $data['girls'] = count(Students::where('gender', 'Female')
+        $data['girls']    = count(Students::where('gender', 'Female')
                                             ->where('grade_level', $teacher['grade_level'])
                                             ->where('section', $teacher['section'])
-                                            ->findAll());   
+                                            ->get());   
         
-        $data['total'] = count(Students::where('gender', 'Female')
+        $data['total']    = count(Students::where('gender', 'Female')
                                             ->where('grade_level', $teacher['grade_level'])
                                             ->where('section', $teacher['section'])
-                                            ->findAll());
+                                            ->get());
 
-        $data['teacher'] = Students::where('id', Auth::user()->id)->first();
+        $data['teacher'] = $teacher;
+
         $data['title_page'] = 'Dashboard';
 
         return view('pages.teacher.dashboard', $data);
