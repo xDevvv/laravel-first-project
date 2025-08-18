@@ -66,7 +66,7 @@
                                 {{ $user['role'] }}
                             </div>
                             <div class="col d-flex justify-content-center align-items-center">
-                                {{ $user['date_approved'] }}
+                                {{ $user['created_at']->format('l, F j, Y') }}
                             </div>
                         </div>
                     @endforeach
