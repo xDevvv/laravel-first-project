@@ -9,32 +9,33 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="dashboard-header row mt-sm-4 mx-sm-5">
+        <div class="dashboard-header row mt-sm-4 mx-sm-5 mt-5">
             <div class="col-6 name-container">
                 <h2>{{ $teacher['grade_level'] . ' - ' . $teacher['section'] }}</h2>
                 <div class="teacher-name-container">Adviser : {{ $teacher['name'] }}</div>
             </div>
             <div class="col-6 total-student-container" style="display: flex; align-items: end;">
                 <div class="number-of-student">
-                    <span>Boys: {{ $boys }}</span>
+                    <span>Boy: {{ $boys }}</span>
                     <span>Girls: {{ $girls }}</span>
                     <span style="color: white;">Total: {{ $total }}</span>
                 </div>
             </div>
         </div>
         <div style="min-height: 391px;">
-            <div class="table-list row mx-5 pt-4 mb-4 d-sm-none d-lg-block">
-                <table class="rounded-table" style="border-radius: 10px; ">
+            <div class="table-list mx-5 pt-4 mb-4 d-sm-none d-lg-block">
+                <table class="rounded-table" style="width: 100%">
                     <thead>
                         <tr>
-                            <th scope="col" style="border-right: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);"></th>
-                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">Student Name</th>
-                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">School Supplies</th>
-                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">P.E Shirt Size</th>
-                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">P.E Pants Size</th>
-                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">Polo / Blouse Size</th>
-                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">Slacks / Skirts Size</th>
-                            <th style="text-align: center; border-left: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">Shoe Size</th>
+                            <th scope="col" style="border-right: 1px solid var(--light-blue);"></th>
+                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);" scope="col">Student Name</th>
+                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);" scope="col">School Supplies</th>
+                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);" scope="col">P.E Shirt Size</th>
+                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);" scope="col">P.E Pants Size</th>
+                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);" scope="col">Polo / Blouse Size</th>
+                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);" scope="col">Slacks / Skirts Size</th>
+                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);" scope="col">Shoe Size</th>
+                            <th scope="col" style="border-left: 1px solid var(--light-blue);"></th>
                         </tr>
                     </thead>
                     <tbody>
