@@ -38,6 +38,7 @@ class StoreAcceptRequest extends FormRequest
         }
 
         if($role == 'lgu') {
+            $rules['lgu_type'] = 'required';
             $rules['area'] = 'required';
         }
 
