@@ -2,8 +2,8 @@
 
 
 @section('adminNavBarList')
-    <li><a href="/admin_user">Home</a></li>
-    <li><a href="/request_user">Request</a></li>
+    <li><a href="/admin">Home</a></li>
+    <li><a href="/request">Request</a></li>
     <li><a href="/logout_user">Logout</a></li>
 @endsection
 
