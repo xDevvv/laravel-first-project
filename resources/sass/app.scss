@@ -696,6 +696,7 @@ input:not(:placeholder-shown) + label {
     border-top: 1px solid var(--blue);
 }
 
+
 // ====================================== //
 
 
@@ -1453,7 +1454,7 @@ input:not(:placeholder-shown) + label {
 
     .total-student-container {
         display: flex;
-        justify-content: start;
+        justify-content: center;
         margin-top: 10px; 
     }
 
@@ -1497,6 +1498,15 @@ input:not(:placeholder-shown) + label {
 
     .table-col-container > div {
         width: auto;
+    }
+
+
+    .card-list th,
+    .card-list td,
+    .teacher-name-container,
+    .name-container h1,
+    .number-of-student span {
+        font-size: 12px;
     }
 
     button,
