@@ -30,7 +30,6 @@ class AuthenticationController extends Controller
             'email'         => Str::of($validatedData['email'])->trim(),
             'role'          => Str::of($validatedData['role'])->trim(),
             'password'      => bcrypt($validatedData['password']),
-            'registered_at' => now(),
         ]);
 
         return redirect()->route('auth.register')->with('success', 'Registration Successful! Please wait for Admin Approval.');
@@ -54,6 +53,13 @@ class AuthenticationController extends Controller
         if(Auth::attempt($credentials)) {
             session()->regenerate();
             
+            if(Auth::user()->role == 'teacher') {
+                return redirect()->intended('/teacher');
+            }
+            if(Auth::user()->role == 'lgu') {
+                return redirect()->intended('/lgu');
+            }
+
             return redirect()->intended('/admin');
         }
 
