@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests\AddStudent;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\Students;
@@ -42,15 +42,18 @@ class TeacherController extends Controller
 
     public function studentInformation() {
 
-        $data['teacher'] = Teacher::where('id', Auth::user()->id)->first();
+        $data['teacher'] = Teacher::where('teacher_id', Auth::user()->user_id)->first();
         $data['title_page'] = 'Student Information';
 
         return view('pages.teacher.studentInformation', $data);
     }
     
-    public function addStudent(Request $request) {
+
+    public function addStudent(AddStudent $request) {
         $validatedData = $request->validated();
 
         Students::create($validatedData);
+
+        return redirect()->route('teacher.studentInformation')->with('add_successfully', 'Added successfully!');
     }
 }
