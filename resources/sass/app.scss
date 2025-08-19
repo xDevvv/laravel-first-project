@@ -503,6 +503,20 @@ input:not(:placeholder-shown) + label {
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+.teacher-input-success-notif {
+    position: absolute;
+    margin-bottom: 0px;
+    top: 7px;
+    right: 55px;
+    color: #32CD32; 
+    display: flex;  
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 3;
+}
+
 .teacher-lgu-success-notif {
     position: absolute;
     margin-bottom: 0px;
@@ -514,7 +528,9 @@ input:not(:placeholder-shown) + label {
     justify-content: center;
     font-size: 13px;
     transition: opacity 0.3s ease, transform 0.3s ease;
+
 }
+
 
 
 .error-container {
@@ -605,6 +621,10 @@ input:not(:placeholder-shown) + label {
     border-bottom-right-radius: 10px;
 }
 
+.total-student-container{
+    display: flex;
+    justify-content: end;
+}
 
 // Student Information (Teacher Page)
 
@@ -679,6 +699,7 @@ input:not(:placeholder-shown) + label {
     display: flex;
     align-items: center;
     height: 60px;
+    font-weight: bold;
     background-color: var(--light);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -696,6 +717,10 @@ input:not(:placeholder-shown) + label {
     border-top: 1px solid var(--blue);
 }
 
+.toggle-btn-md span {
+    font-size: 30px;
+    color: white;
+}
 
 // ====================================== //
 
@@ -970,6 +995,10 @@ input:not(:placeholder-shown) + label {
 
 .error-modal {
     font-size: 13px;
+}
+
+.error-handler {
+    max-width: auto;
 }
 
 // ====================================== //
@@ -1321,9 +1350,14 @@ input:not(:placeholder-shown) + label {
 
 @media (max-width: 620px) {
 
+    .dropdown-menus,
     .section-dropdown,
     .grade-lvl-container {
         font-size: 13px;
+    }
+
+    .section-dropdown {
+        padding-top: 15px;
     }
 
     
@@ -1361,12 +1395,14 @@ input:not(:placeholder-shown) + label {
 }
 
 @media (max-width: 575px) {
-
+    
+    
+    
     .component-holder > h6 
     {
         text-align: center;
     }
-
+    
     .nav-bar-container 
     {
         padding-right: 0px;
@@ -1383,13 +1419,14 @@ input:not(:placeholder-shown) + label {
         margin-right: 10px;
         margin-left: 10px;
         font-size: 12px;
+        height: auto;
     }
 
     .section {
         font-size: 12px;
     }
 
-    .dropdown-menu,
+    .dropdown-menus,
     .section-dropdown {
         width: 300px;
     }
@@ -1454,7 +1491,8 @@ input:not(:placeholder-shown) + label {
 
     .total-student-container {
         display: flex;
-        justify-content: center;
+        margin-top: 15px;
+        justify-content: start;
         margin-top: 10px; 
     }
 
@@ -1496,29 +1534,39 @@ input:not(:placeholder-shown) + label {
         justify-content: end;
     }
 
+    .table-col-container {
+        display: flex;
+        justify-content: space-around;
+    }
     .table-col-container > div {
         width: auto;
     }
 
 
-    .card-list th,
-    .card-list td,
-    .teacher-name-container,
-    .name-container h1,
-    .number-of-student span {
+    .teacher-assigned {
         font-size: 12px;
+        font-weight: bold;
     }
 
-    button,
-    #modal-select-file option,
-    #gender option,
-    #t-shirt-size option,
-    #pants-size option,
-    #polo-size option,
-    #slacks-size option,
-    #school-supplies option {
-        font-size: 12px;
-    }
+
+    // .card-list th,
+    // .card-list td,
+    // .teacher-name-container,
+    // .name-container h1,
+    // .number-of-student span {
+    //     font-size: 12px;
+    // }
+
+    // button,
+    // #modal-select-file option,
+    // #gender option,
+    // #t-shirt-size option,
+    // #pants-size option,
+    // #polo-size option,
+    // #slacks-size option,
+    // #school-supplies option {
+    //     font-size: 12px;
+    // }
 
     .menu-icon-container,
     .search-input-container,
@@ -1533,6 +1581,12 @@ input:not(:placeholder-shown) + label {
     .email-input-label 
     {
         display: none;
+    }
+}
+
+@media (min-width: 534px) and (max-width: 575px)  {
+    .select-status {
+        min-width: 233px;
     }
 }
 
