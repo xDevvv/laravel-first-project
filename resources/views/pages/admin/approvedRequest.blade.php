@@ -15,7 +15,7 @@
 @section('adminNavBarListSideBar')
     <li><a id="home" href="/admin">Home</a></li>
     <li><a id="about" href="/request">Request <span>{{ $pendingRequestsCount }}</span></a></li>
-    <li><a id="projects" href="/logout">Logout</a></li>
+    <li><a id="projects" href="/logout_user">Logout</a></li>
 @endsection
 
 @section('content')
