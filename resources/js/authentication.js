@@ -1,16 +1,17 @@
 // Authentication Notification
 
-const successNotif = document.querySelector('.success-notif');
 const successNotifTeacherLgu = document.querySelector('.teacher-lgu-success-notif');
 
-function removeSuccessNofif(element) {
+
+
+(successNotifTeacherLgu) ? removeSuccessNofif(successNotifTeacherLgu) : null;
+
+
+export function removeSuccessNofif(element) {
     setTimeout(() => {
         element.classList.remove('show');
     }, 3000);
 }
-
-(successNotifTeacherLgu) ? removeSuccessNofif(successNotifTeacherLgu) : null;
-
 
 const burgerMenu = document.getElementById('burger-menu');
 
