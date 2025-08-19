@@ -29,11 +29,11 @@
                         @yield('pendingRequestsCount')
                     </ul>
                 </div>
-                <nav class="d-block d-md-none navbar navbar-expand-md">
+                <nav class="d-block pt-1 d-md-none navbar navbar-expand-md">
                     <div class="container-fluid p-0 d-flex flex-column" id="burger-menu">
                         <!-- Hamburger toggle button -->
                         <button class="btn toggle-btn-md"  class="burger-menu-btn">
-                            <span style="font-size: 30px; color: white;">
+                            <span>
                                 <i id="burger-menu" class="fa-solid fa-bars"></i>
                             </span>
                         </button>

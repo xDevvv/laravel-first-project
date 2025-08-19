@@ -7,17 +7,17 @@
 @endSection
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid px-sm-5">
         @if(session()->has('add_successfully'))
-            <div class="alert fade show teacher-lgu-success-notif" role="alert">
+            <div class="fade show teacher-input-success-notif" role="alert">
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ $message }}
+                    Added Successfully!
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>
         @endif
         <div class="container-fluid container-title">Student's Information</div>
-        <form action="" method="post">
+        <form action="/add_student" method="post">
             @csrf
             <div class="container-fluid student-information my-5">
                 <div class="row d-flex justify-content-center mx-lg-5">
@@ -31,7 +31,7 @@
                         </div>
                         <div class="container-fluid student-info-input">
                             <label for="">Teacher ID:</label>
-                            <input type="text" class="form-control" placeholder="Teacher ID" id="teacher-id" name="teacher_id" value="{{ $teacher['id'] }}" readonly>
+                            <input type="text" class="form-control" placeholder="Teacher ID" id="teacher-id" name="teacher_id" value="{{ $teacher['teacher_id'] }}" readonly>
                             @error('teacher_id')
                                 <div class="mt-2 input-lgu_type-error show"> {{ $message }} </div>
                             @enderror
@@ -59,8 +59,8 @@
                         </div>
                         <div class="container-fluid student-info-input">
                             <label for="">Contact No:</label>
-                            <input type="text" class="form-control" placeholder="Contact No." id="contact-no" name="contact_no" value="{{ old('contact_no') }}">
-                            @error('contact_no')
+                            <input type="text" class="form-control" placeholder="Contact No." id="contact-no" name="contact_number" value="{{ old('contact_number') }}">
+                            @error('contact_number')
                                 <div class="mt-2 input-lgu_type-error show"> {{ $message }} </div>
                             @enderror
                         </div>
@@ -214,4 +214,8 @@
 
 @section('footer')
     <div class="container-fluid line"></div>
+@endsection
+
+@section('script')
+    @vite('resources/js/teacherFunctionality.js')
 @endsection

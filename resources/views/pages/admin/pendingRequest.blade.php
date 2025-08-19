@@ -16,7 +16,7 @@
 @section('adminNavBarListSideBar')
     <li><a id="home" href="/admin">Home</a></li>
     <li><a id="about" href="/request">Request <span>{{ $pendingRequestsCount }}</span></a></li>
-    <li><a id="projects" href="/logout">Logout</a></li>
+    <li><a id="projects" href="/logout_user">Logout</a></li>
 @endsection
 
 @section('content')
@@ -34,17 +34,11 @@
         </div>
         <div class="container-fluid main-container">
             <div class="container-fluid">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-3 error-handler">
-                        @if(session()->has('errors'))
+                <div class="d-flex justify-content-center">
+                    <div class="error-handler">
+                        @if(session()->has('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert" style="font-size: 13px;">
-                                Request Denied!
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        @endif
-                        @if (session()->has('success'))
-                            <div class="alert alert-success alert-dismissible fade show" role="alert" style="font-size: 13px;">
-                                Request Accepted Successfully!
+                                {{ session()->get('success') }}
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         @endif
