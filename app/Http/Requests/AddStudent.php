@@ -22,10 +22,12 @@ class AddStudent extends FormRequest
     public function rules(): array
     {
         return [
-            'label' => 'required|alpha',
+            'student_id' => 'required|unique:students,student_id',
+            'teacher_id' => 'required',
+            'first_name' => 'required|alpha',
             'middle_name' => 'nullable|alpha',
             'last_name' => 'required|alpha',
-            'contact_no' => 'required|integer|digits:10',
+            'contact_number' => 'required|integer|digits:11',
             'age' => 'required|integer',
             'gender' => 'required',
             'grade_level' => 'required|integer',
@@ -44,8 +46,9 @@ class AddStudent extends FormRequest
     public function messages()
     {
         return [
-            'label.required' => 'Firstname is required',
-            'label.alpha' => 'Firstname cannot accept numerical or spaces',
+            'student_id' => 'Student ID is required',
+            'first_name.required' => 'Firstname is required',
+            'first_name' => 'Firstname cannot accept numerical or spaces',
 
             'middle_name.alpha' => 'Middle name cannot accept numerical spaces',
 
@@ -53,8 +56,8 @@ class AddStudent extends FormRequest
             'last_name.alpha' => 'Lastname cannot accept numerical spaces',
 
             'contact_no.required' => 'Contact no. is required',
-            'contact_no.integer' => 'Invalid Contact no.',
-            'contact_no.digits' => 'Contact no. must be exactly 10 digits',
+            'contact_number.integer' => 'Invalid Contact no.',
+            'contact_number.digits' => 'Contact no. must be exactly 10 digits',
 
             'age.required' => 'Age is required',
             'age.integer' => 'Invalid Age',
