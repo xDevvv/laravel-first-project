@@ -261,7 +261,7 @@ function fetchStudent(gradeLvl, section) {
                     <thead>
                         <tr>
                             <th style="text-align: center;">Name</th>
-                            <th>Action</th>
+                            <th style="text-align: center;">Action</th>
                         </tr>
                     </thead>
                     <tbody class="student-card-body">
@@ -312,7 +312,7 @@ function fetchStudent(gradeLvl, section) {
     }).catch(error => console.log(error))
 }
 
-async function fetchSpecificStudent(id, grade_level, section) {
+export async function fetchSpecificStudent(id, grade_level, section) {
 
     const response = await fetch(`request/specific-student/${id}/${grade_level}/${section}`);
     const data = await response.json();
