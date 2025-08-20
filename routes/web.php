@@ -8,7 +8,7 @@ use App\Http\Controllers\LguController;
 use App\Http\Controllers\TeacherController;
 
 use Illuminate\Support\Facades\Route;
- 
+
 
 // Register - Login - Logout Handler
 Route::post('/register_user', [AuthenticationController::class, 'register'])->name('register.submit');
@@ -32,6 +32,9 @@ Route::middleware(['is_logout'])->group(function () {
     Route::get('admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('request', [AdminController::class, 'pendingRequests'])->name('admin.pendingRequests');
     Route::get('approve', [AdminController::class, 'showApprovedRequests'])->name('admin.showApprovedRequest');
+
+    // Admin and Teacher Functionality
+    Route::get('request/student/{student}', [AdminController::class, 'fetchSpecificStudent']);
     
     // Teacher Pages Route
     Route::get('teacher', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
@@ -51,7 +54,7 @@ Route::middleware('is_admin_user')->group(function () {
     Route::get('request/sections/all/{gradeLevel}', [AdminController::class, 'fetchAllSections']);
     Route::get('request/students/{gradeLevel}/{section}', [AdminController::class, 'fetchStudents']);
     Route::get('request/teacher/{gradeLevel}/{section}', [AdminController::class, 'fetchTeachers']);
-    Route::get('request/specific-student/{id}/{gradeLevel}/{section}', [AdminController::class, 'fetchSpecificStudent']);    
+    
 });
 
 Route::middleware('is_teacher_user')->group(function () {
