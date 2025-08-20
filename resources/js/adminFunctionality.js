@@ -16,6 +16,7 @@ document.querySelectorAll('.dropdown-toggle').forEach(button => {
 });
 
 
+
 if(userDetailsBtn != null) {
     userDetailsBtn.forEach(btn => {
         btn.addEventListener('click', async () => {
@@ -291,13 +292,18 @@ function fetchStudent(gradeLvl, section) {
                 <tr>
                     <td style="text-align: center;">${data.first_name} ${data.last_name}</td>
                     <td>
-                        <button class="btn btn-sm btn-primary" onclick="fetchSpecificStudent(${data.student_id}, ${data.grade_level}, '${data.section}')">
+                        <button class="btn btn-sm btn-primary view-btn" data-id="${data.student_id}">
                             View
                         </button>
                     </td>
                 </tr>
             `);
         });
+
+        document.querySelectorAll('.view-btn').forEach(btn => btn.addEventListener('click', (e) => {
+            let id = e.target.dataset.id;
+            fetchSpecificStudent(id);
+        }));
         
         document.getElementById('print').addEventListener('click', () => {
             const printContents = document.querySelector('.student-table-container').innerHTML;
@@ -312,15 +318,13 @@ function fetchStudent(gradeLvl, section) {
     }).catch(error => console.log(error))
 }
 
-export async function fetchSpecificStudent(id, grade_level, section) {
+export async function fetchSpecificStudent(id) {
 
-    const response = await fetch(`request/specific-student/${id}/${grade_level}/${section}`);
+    const response = await fetch(`request/student/${id}`);
     const data = await response.json();
 
     const modalElement = document.querySelector('.print-modal');
     const modal = bootstrap.Modal.getInstance(modalElement);
-
-    console.log(data);
 
 
     if(modalElement == null) 
