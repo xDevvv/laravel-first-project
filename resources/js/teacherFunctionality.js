@@ -9,8 +9,8 @@ const successNotification = document.querySelector('.teacher-input-success-notif
 
 document.querySelector('.view-btn').addEventListener('click', (e) => {
     let id = e.target.dataset.id;
+    let gradeLevel = e.target.dataset.gradeLvl;
     let section = e.target.dataset.section;
-    let name = e.target.dataset.name;
 
-    fetchSpecificStudent(id, section, name);
+    fetchSpecificStudent(id, gradeLevel, section);
 });
