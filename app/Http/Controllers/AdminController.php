@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Http\FormRequest;
 
 class AdminController extends Controller
 {
@@ -164,12 +165,15 @@ class AdminController extends Controller
         return response()->json($students);
     }
 
-    public function fetchSpecificStdent($id, $gradeLevel, $section) { 
-        $student = Students::where([
-            'student_id'    => $id,
-            'grade_level'   => $gradeLevel,
-            'section'       => $section
-        ])->get();
+    public function fetchSpecificStudent(Request $request, Students $student) { 
+
+
+        if($request->user()->can('view', $student)) {
+            return  response()->json($student);
+        }
+        abort(403);
+        
+        
     }
 
     public function fetchTeachers($gradeLevel, $section) {
