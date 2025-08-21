@@ -30,7 +30,7 @@
                     </ul>
                 </div>
                 <nav class="d-block pt-1 d-md-none navbar navbar-expand-md">
-                    <div class="container-fluid p-0 d-flex flex-column" id="burger-menu">
+                    <div class="container-fluid p-0 d-flex flex-column">
                         <!-- Hamburger toggle button -->
                         <button class="btn toggle-btn-md"  class="burger-menu-btn">
                             <span>
@@ -40,7 +40,7 @@
                             <!-- Sidebar -->
                         <div id="sidebar" class="sidebar">
                             @yield('navBarList')
-                            @yield('adminNavBarListSideBar')
+                            @yield('adminSideNavBarList')
                         </div>
                     </div>
                 </nav>
