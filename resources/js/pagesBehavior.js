@@ -21,12 +21,10 @@ if(noneBackgroundPaths.includes(pathname)) {
 
 
 const burgerMenu = document.getElementById('burger-menu');
-console.log(burgerMenu);
 
 if(burgerMenu != null) {
     burgerMenu.addEventListener('click', (event) => {
-        console.log(event.target.id);
-        const sideBar = document.getElementById('sidebar');
+        const sideBar = document.querySelector('#sidebar');
         if(event.target.id == 'burger-menu') sideBar.classList.toggle('show');
     });
 }
@@ -35,3 +33,5 @@ document.addEventListener('click', (event) => {
     const sideBar = document.getElementById('sidebar');
     if(event.target.id != 'burger-menu') sideBar.classList.remove('show');
 })
+
+

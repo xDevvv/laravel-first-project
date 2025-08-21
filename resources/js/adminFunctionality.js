@@ -128,7 +128,6 @@ if(userDetailsBtn != null) {
                 gradeLevelSelection();
             }
 
-
             if(data.role === 'lgu') {
                 document.querySelector('.modal-body').insertAdjacentHTML('beforeend', `
                     <div class="lgu-label row mb-2 mt-4 d-lg-flex d-sm-none justify-content-center align-items-baseline gap-2 px-2">
