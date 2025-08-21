@@ -3,9 +3,8 @@
 @section('navBarList')
     <li><a href="/teacher">Home</a></li>
     <li><a href="/student_information">Input</a></li>
-    <li><a href="/logout">Logout</a></li>
+    <li><a href="/logout_user">Logout</a></li>
 @endSection
-
 
 @section('content')
     <div class="container-fluid">
@@ -67,7 +66,7 @@
                                 <td style="text-align: center;"><?= $student['first_name'] . ' ' . $student['last_name'] ?></td>
                                 <td style="text-align: center;"><?= $student['gender'] ?></td>
                                 <td style="text-align: center;">
-                                    <button class="btn btn-sm btn-primary view-btn" data-id="<?= $student['student_id'] ?>" data-gradeLvl="<?= $student['grade_level'] ?>" data-section="<?= $student['section'] ?>">
+                                    <button class="btn btn-sm btn-primary view-btn" data-id="<?= $student['student_id'] ?>">
                                         View
                                     </button>
                                 </td>

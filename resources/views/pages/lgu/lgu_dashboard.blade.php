@@ -1,7 +1,7 @@
 @extends('base-layout.main')
 
 @section('navBarList')
-    <li><a href="/logout">Logout</a></li>
+    <li><a href="/logout_user">Logout</a></li>
 @endSection
 
 @section('content')
@@ -70,24 +70,24 @@
                 </div>
                 <div class="row grade-lvl mt-4 mb-5">
                     <div class="col d-flex justify-content-center my-4">
-                        <button type="button" class="btn btn-primary lgu-grade-btn grade-check-btn" id="1">Grade 1</button>
+                        <button type="button" class="lgu-grade-btn grade-check-btn" id="1">Grade 1</button>
                     </div>
                     <div class="col d-flex justify-content-center my-4">
-                        <button type="button" class="btn btn-primary lgu-grade-btn grade-check-btn" id="2">Grade 2</button>
+                        <button type="button" class="lgu-grade-btn grade-check-btn" id="2">Grade 2</button>
                     </div>
                     <div class="col d-flex justify-content-center my-4">
-                        <button type="button" class="btn btn-primary lgu-grade-btn grade-check-btn" id="3">Grade 3</button>
+                        <button type="button" class="lgu-grade-btn grade-check-btn" id="3">Grade 3</button>
                     </div>
                 </div>
                 <div class="row grade-lvl my-5">
                     <div class="col d-flex justify-content-center my-4">
-                        <button type="button" class="btn btn-primary lgu-grade-btn grade-check-btn" id="4">Grade 4</button>
+                        <button type="button" class="lgu-grade-btn grade-check-btn" id="4">Grade 4</button>
                     </div>
                     <div class="col d-flex justify-content-center my-4">
-                        <button type="button" class="btn btn-primary lgu-grade-btn grade-check-btn" id="5">Grade 5</button>
+                        <button type="button" class="lgu-grade-btn grade-check-btn" id="5">Grade 5</button>
                     </div>
                     <div class="col d-flex justify-content-center my-4">
-                        <button type="button" class="btn btn-primary lgu-grade-btn grade-check-btn" id="6">Grade 6</button>
+                        <button type="button" class="lgu-grade-btn grade-check-btn" id="6">Grade 6</button>
                     </div>
                 </div>
             </div>
@@ -98,24 +98,24 @@
                 </div>
                 <div class="row grade-lvl mt-4 mb-5">
                     <div class="col d-flex justify-content-center my-4">
-                        <button type="button" class="btn btn-primary lgu-product-btn product-check-btn" id="school_supplies">School Supplies</button>
+                        <button type="button" class="lgu-product-btn product-check-btn" id="school_supplies">School Supplies</button>
                     </div>
                     <div class="col d-flex justify-content-center my-4">
-                        <button type="button" class="btn btn-primary lgu-product-btn product-check-btn" id="t_shirt_size">P.E Shirt</button>
+                        <button type="button" class="lgu-product-btn product-check-btn" id="t_shirt_size">P.E Shirt</button>
                     </div>
                     <div class="col d-flex justify-content-center my-4">
-                        <button type="button" class="btn btn-primary lgu-product-btn product-check-btn" id="pants_size">P.E Pants</button>
+                        <button type="button" class="lgu-product-btn product-check-btn" id="pants_size">P.E Pants</button>
                     </div>
                 </div>
                 <div class="row grade-lvl my-5">
                     <div class="col d-flex justify-content-center my-4">
-                        <button type="button" class="btn btn-primary lgu-product-btn product-check-btn" id="slacks_skirt_size">Slacks & Skirt</button>
+                        <button type="button" class="lgu-product-btn product-check-btn" id="slacks_skirt_size">Slacks & Skirt</button>
                     </div>
                     <div class="col d-flex justify-content-center my-4">
-                        <button type="button" class="btn btn-primary lgu-product-btn product-check-btn" id="polo_blouse_size">Polo & Blouse</button>
+                        <button type="button" class="lgu-product-btn product-check-btn" id="polo_blouse_size">Polo & Blouse</button>
                     </div>
                     <div class="col d-flex justify-content-center my-4">
-                        <button type="button" class="btn btn-primary lgu-product-btn product-check-btn" id="shoe_size">Shoes</button>
+                        <button type="button" class="lgu-product-btn product-check-btn" id="shoe_size">Shoes</button>
                     </div>
                 </div>
             </div>
@@ -128,4 +128,8 @@
 
 @section('footer')
     <div class="container-fluid line"></div>
+@endsection
+
+@section('script')
+    @vite('resources/js/lguFunctionality.js')
 @endsection

@@ -3,7 +3,7 @@
 @section('navBarList')
     <li><a href="/teacher">Home</a></li>
     <li><a href="/student_information">Input</a></li>
-    <li><a href="/logout">Logout</a></li>
+    <li><a href="/logout_user">Logout</a></li>
 @endSection
 
 @section('content')
