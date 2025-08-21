@@ -67,5 +67,5 @@ Route::middleware('is_lgu_user')->group(function () {
     // Lgu Request Functionality
     Route::get('request/section/{gender}/{$gradeLevel}/{section}', [LguController::class, 'girlsSectionPerGradeLevel']);
     Route::get('request/student/per_section/{gradeLevel}', [LguController::class, 'overallStudentPerSection']);
-    Route::post('request/info', [LguController::class, 'studentRecords'])->name('lgu.dashboard');
+    Route::get('request/info/{gradeSelected}/{productSelected}', [LguController::class, 'studentRecords'])->name('lgu.dashboard');
 });
