@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Students;
 
@@ -12,17 +13,14 @@ class LguController extends Controller
         return view('pages.lgu.lgu_dashboard', ['title_page' => $title_page]);
     }
 
-    public function studentRecords(Request $request) {
+    public function studentRecords($gradeLevel, $productSelected) {
 
-        $data = $request->json()->all();
+        $data = Students::select('gender', $productSelected . ' as size', DB::raw('COUNT(*) as total'))
+        ->where('grade_level', 1)
+        ->groupBy('gender')
+        ->get();
 
-        $result = Students::table('students') // change 'students' to your table name
-            ->select('gender',  Students::raw($data['product'] . ' as size'), Students::raw('COUNT(*) as total'))
-            ->where('grade_level', $data['gradeLevel'])
-            ->groupBy('gender', $data['product'])
-            ->get();
-
-        return response()->json($result);
+        return response()->json($data);
     }
 
     public function studentsSectionPerGradeLevel($gender, $gradeLevel, $section) {
