@@ -1007,12 +1007,14 @@ input:not(:placeholder-shown) + label {
 
 .lgu-content {
     height: auto;
-    background-color: #DDDDDD;
+    background-color: rgba(221, 221, 221, 0.8) ;
+    border-radius: 10px;
 }
 
 .lgu-product-btn,
 .lgu-grade-btn {
     background-color: var(--light);
+    border: 1px solid blue;
     color: black;
     font-weight: bold;
     font-size: 20px;
