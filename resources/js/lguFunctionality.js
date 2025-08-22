@@ -75,152 +75,68 @@ function lguFirstModal(gradeLevel, product, data) {
         'Double XL': 'doubleXl'
     };
 
+    const sizeTotals = [
+        {gender: 'Male', size: {extraSmall: 0, small: 0, medium: 0, large: 0, extraLarge: 0, doubleXl: 0}},
+        {gender: 'Female', size: {extraSmall: 0, small: 0, medium: 0, large: 0, extraLarge: 0, doubleXl: 0}}, 
+    ];
+
     let modalContainerTitle;
     let productHeader;
     let boysCount = 0;
     let girlsCount = 0;
 
     const firstModal = document.querySelector('#lgu-modal-1-container');
-
+    
     if(product == 'slacks_skirt_size' || product == 'polo_blouse_size') {
 
         let product1;
         let product2;
 
-        const boysSizeTotals = {
-            extraSmall: 0,
-            small: 0,
-            medium: 0,
-            large: 0,
-            extraLarge: 0,
-            doubleXl: 0
-        };
+        const sizeTotals = [
+            {gender: 'Male', size: {extraSmall: 0, small: 0, medium: 0, large: 0, extraLarge: 0, doubleXl: 0}},
+            {gender: 'Female', size: {extraSmall: 0, small: 0, medium: 0, large: 0, extraLarge: 0, doubleXl: 0}}, 
+        ];
 
-        const girlsSizeTotals = {
-            extraSmall: 0,
-            small: 0,
-            medium: 0,
-            large: 0,
-            extraLarge: 0,
-            doubleXl: 0
-        };
-
-        if(product == 'slacks_skirt_size') {
-            product1 = 'Slacks';
-            product2 = 'Skirt';
-            modalContainerTitle = 'Slacks & Skirt';
-        }
-
-        if(product == 'polo_blouse_size') {
-
-            product1 = 'Polo';
-            product2 = 'Blouse';
-            modalContainerTitle = 'Polo & Blouse';
-        }
+        
+        (product == 'slacks_skirt_size') ? product1 = 'Slacks' : product1 = 'Polo';
+        (product == 'slacks_skirt_size') ? product2 = 'Skirt' : product2 = 'Blouse';
+        (product == 'slacks_skirt_size') ? modalContainerTitle = 'Slacks & Skirt' : modalContainerTitle = 'Polo & Blouse';
 
         data.forEach((value) => {
-            if(value.gender == 'Male' && sizeMap[value.size]) {
-                boysSizeTotals[sizeMap[value.size]] += parseInt(value.total);
+            if(value.gender == 'Male') {
                 boysCount += parseInt(value.total);
+                sizeTotals[0].size[sizeMap[value.size]] += parseInt(value.total);
             }
 
-            if(value.gender == 'Female' && sizeMap[value.size]) {
-                girlsSizeTotals[sizeMap[value.size]] += parseInt(value.total);
+            if(value.gender == 'Female') {
                 girlsCount += parseInt(value.total);
+                sizeTotals[1].size[sizeMap[value.size]] += parseInt(value.total);
             }
+        })
 
+        firstModalInsertion({
+            modalTitle: modalContainerTitle,
+            productHeader: {product1: product1, product2: product2},
+            studentData: {boysCount: boysCount, girlsCount: girlsCount, gradeLevel: gradeLevel},
         });
-        
-        firstModal.innerHTML = `
-            <div class="modal-content">
-                <div class="modal-body contents">
-                    <div class="container-fluid d-flex justify-content-end">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="container-fluid modal-container-title">${modalContainerTitle}</div>
-                    <div class="container-fluid student-information-supplies modal-student-information-container mb-3">
-                        <h3>Grade ${gradeLevel}</h3>
-                        <div class="row mx-2 mx-sm-5">
-                            <div class="col">
-                                <table class="table table-bordered total-product-table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Size</th>
-                                            <th scope="col">${product1}</th>
-                                            <th scope="col">${product2}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="product-body">
-                                        <tr>
-                                            <td>EXTRA SMALL</td>
-                                            <td>${boysSizeTotals.extraSmall} PCS</td>
-                                            <td>${girlsSizeTotals.extraSmall} PCS</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SMALL</td>
-                                            <td>${boysSizeTotals.small} PCS</td>
-                                            <td>${girlsSizeTotals.small} PCS</td>
-                                        </tr>
-                                        <tr>
-                                            <td>MEDIUM</td>
-                                            <td>${boysSizeTotals.medium} PCS</td>
-                                            <td>${girlsSizeTotals.medium} PCS</td>
-                                        </tr>
-                                        <tr>
-                                            <td>LARGE</td>
-                                            <td>${boysSizeTotals.large} PCS</td>
-                                            <td>${girlsSizeTotals.large} PCS</td>
-                                        </tr>
-                                        <tr>
-                                            <td>EXTRA LARGE</td>
-                                            <td>${boysSizeTotals.extraLarge} PCS</td>
-                                            <td>${girlsSizeTotals.extraLarge} PCS</td>
-                                        </tr><tr>
-                                            <td>DOUBLE XL</td>
-                                            <td>${boysSizeTotals.doubleXl} PCS</td>
-                                            <td>${girlsSizeTotals.doubleXl} PCS</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="overall-total-container col">
-                                <div class="outer-container">
-                                    <div class="inner-container">
-                                        <div class="overall-grade-header">Grade ${gradeLevel}</div>
-                                        <div class="d-flex flex-column">
-                                            <div>Boys - ${boysCount}</div>
-                                            <div class="mb-2">Girls - ${girlsCount}</div>
-                                            <div class="line-separation"></div>
-                                            <div>Total = ${boysCount + girlsCount} Students</div>
-                                            <div class="total-line"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col d-flex justify-content-end">
-                                <button class="compute-btn" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Next</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-        `;
+
+        threeColumnTableLayout(product, sizeTotals, {productHeader: {product1: product1, product2: product2}});
 
         secondModalModalBtn.addEventListener('change', () => {
 
-            const boysOverallTotal = boysSizeTotals.extraSmall + boysSizeTotals.small + boysSizeTotals.medium + boysSizeTotals.large + boysSizeTotals.extraLarge + boysSizeTotals.doubleXl;
-            const girlsOverallTotal = girlsSizeTotals.extraSmall + girlsSizeTotals.small + girlsSizeTotals.medium + girlsSizeTotals.large + girlsSizeTotals.extraLarge + girlsSizeTotals.doubleXl;
+            let boysOverallTotal;
+            let girlsOverallTotal;
+
+            sizeTotals.forEach((value) => {
+                if(value.gender == 'Male') boysOverallTotal = Object.values(value.size).reduce((acc, curr) => acc + curr, 0);
+                if(value.gender == 'Female') girlsOverallTotal = Object.values(value.size).reduce((acc, curr) => acc + curr, 0);
+            });
+
 
             const containerFile = document.querySelector('.per-section-info');
             containerFile.innerHTML = '';
 
             if(secondModalModalBtn.value == 'overall') {
-
                 containerFile.innerHTML = `
                     <div class="container file">
                         <div class="row p-3 file-main-header">
@@ -257,33 +173,33 @@ function lguFirstModal(gradeLevel, product, data) {
                                     <tbody class="student-table-body">
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Extra Small (XL)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${boysSizeTotals.extraSmall} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${girlsSizeTotals.extraSmall} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].extraSmall} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].extraSmall} PCS</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Small (S)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${boysSizeTotals.small} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${girlsSizeTotals.small} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].small} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].small} PCS</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Medium (M)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${boysSizeTotals.medium} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${girlsSizeTotals.medium} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].medium} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].medium} PCS</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Large (L)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${boysSizeTotals.large} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${girlsSizeTotals.large} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].large} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].large} PCS</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Extra Large (XL)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${boysSizeTotals.extraLarge} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${girlsSizeTotals.extraLarge} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].extraLarge} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].extraLarge} PCS</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Double Extra Large (XXL)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${boysSizeTotals.doubleXl} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${girlsSizeTotals.doubleXl} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].doubleXl} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].doubleXl} PCS</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -318,15 +234,10 @@ function lguFirstModal(gradeLevel, product, data) {
             } 
 
             if(secondModalModalBtn.value == 'per-section') {
-                
-                
                 fetch(`request/student/per_section/${gradeLevel}`)
                 .then(response => response.json())
                 .then(data => {
-                    
-                    console.log(data);
                     for(let i = 0; i < data.length; i++) {
-                        
                         containerFile.insertAdjacentHTML('beforeend', `
                             <div class="container file my-3">
                                 <div class="row p-3 file-main-header">
@@ -450,118 +361,32 @@ function lguFirstModal(gradeLevel, product, data) {
 
     if(product == 't_shirt_size' || product == 'pants_size') {
         
-        console.log(data);
-        let boys = 0;
-        let girls = 0;
+        (product == 't_shirt_size') ? modalContainerTitle = 'T-Shirt' : modalContainerTitle = 'Pants';
+        (product == 't_shirt_size') ? productHeader = 'T-Shirt' : productHeader = 'Pants';
 
-        if(product == 't_shirt_size') {
-            modalContainerTitle = 'T-Shirt';
-            productHeader = 'T-Shirt';
-        }
-
-        if(product == 'pants_size') {
-            modalContainerTitle = 'Pants';
-            productHeader = 'Pants';
-        }
-
-        const sizeTotals = {
-            extraSmall: 0,
-            small: 0,
-            medium: 0,
-            large: 0,
-            extraLarge: 0,
-            doubleXl: 0
-        }
-
-        console.log(data.total);
         data.forEach((value) => {
 
             console.log(value.gender);
-            if(value.gender == 'Male' && sizeMap[value.size]) {
-                sizeTotals[sizeMap[value.size]] += parseInt(value.total);
-                boys += parseInt(value.total);
+            if(value.gender == 'Male') {
+                boysCount += parseInt(value.total);
+                sizeTotals[0].size[sizeMap[value.size]] += parseInt(value.total);
             }
 
-            if(value.gender == 'Female' && sizeMap[value.size]) {
-                sizeTotals[sizeMap[value.size]] += parseInt(value.total);
-                girls += parseInt(value.total);
+            if(value.gender == 'Female') {
+                girlsCount += parseInt(value.total);
+                sizeTotals[1].size[sizeMap[value.size]] += parseInt(value.total);
             }
         });
 
-        firstModal.innerHTML = `
-            <div class="modal-dialog modal-dialog-centered modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="container-fluid d-flex justify-content-end">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="container-fluid modal-container-title">${modalContainerTitle}</div>
-                        <div class="container-fluid student-information-supplies modal-student-information-container mb-3">
-                            <h3>Grade ${gradeLevel}</h3>
-                            <div class="row mx-2 mx-sm-5">
-                                <div class="col">
-                                    <table class="table table-bordered total-product-table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Size</th>
-                                                <th scope="col" class="product-header">${productHeader}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="product-body">
-                                            <tr>
-                                                <td>EXTRA SMALL</td>
-                                                <td>${sizeTotals.extraSmall} PCS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>SMALL</td>
-                                                <td>${sizeTotals.small} PCS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>MEDIUM</td>
-                                                <td>${sizeTotals.medium} PCS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>LARGE</td>
-                                                <td>${sizeTotals.large} PCS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>EXTRA LARGE</td>
-                                                <td>${sizeTotals.extraLarge} PCS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>DOUBLE XL</td>
-                                                <td>${sizeTotals.doubleXl} PCS</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="overall-total-container col d-flex justify-content-end">
-                                    <div class="outer-container">
-                                        <div class="inner-container">
-                                            <div class="overall-grade-header">Grade ${gradeLevel}</div>
-                                            <div class="d-flex flex-column">
-                                                <div>Boys - ${boys}</div>
-                                                <div class="mb-2">Girls - ${girls}</div>
-                                                <div class="line-separation"></div>
-                                                <div>Total = ${boys + girls} Students</div>
-                                                <div class="total-line"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col d-flex justify-content-end">
-                                    <button class="compute-btn" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Next</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
+
+
+        firstModalInsertion({
+            modalTitle: modalContainerTitle,
+            productHeader: productHeader,
+            studentData: {sizeTotals: sizeTotals, boysCount: boysCount, girlsCount: girlsCount, gradeLevel: gradeLevel},
+        });
+
+        threeColumnTableLayout(product, sizeTotals, {productHeader: {product1: product1, product2: product2}});
 
         secondModalModalBtn.addEventListener('change', () => {
 
@@ -804,6 +629,12 @@ function lguFirstModal(gradeLevel, product, data) {
             (value.gender == 'Male') ? boysCount += parseInt(value.total) : girlsCount += parseInt(value.total);
         });
 
+        firstModalInsertion({
+            modalTitle: modalContainerTitle,
+            productHeader: productHeader,
+            studentData: {boysCount: boysCount, girlsCount: girlsCount, gradeLevel: gradeLevel},
+        });
+
         firstModal.innerHTML = `
             <div class="modal-dialog modal-dialog-centered modal-dialog modal-xl">
                 <div class="modal-content">
@@ -938,5 +769,176 @@ function lguFirstModal(gradeLevel, product, data) {
         document.querySelector('.overall-student').innerHTML = `Total = ${boysCount + girlsCount} Students`;
     }
 
+}
+
+function firstModalInsertion({modalTitle, studentData}) {
+
+    const firstModal = document.querySelector('#lgu-modal-1-container');
+
+    firstModal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-body contents">
+                <div class="container-fluid d-flex justify-content-end">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="container-fluid modal-container-title">${modalTitle}</div>
+                <div class="container-fluid student-information-supplies modal-student-information-container mb-3">
+                    <h3>Grade ${studentData.gradeLevel}</h3>
+                    <div class="row mx-2 mx-sm-5">
+                        <div class="col">
+                            <table class="table table-bordered total-product-table">
+                                
+                            </table>
+                        </div>
+                        <div class="overall-total-container col">
+                            <div class="outer-container">
+                                <div class="inner-container">
+                                    <div class="overall-grade-header">Grade ${studentData.gradeLevel}</div>
+                                    <div class="d-flex flex-column">
+                                        <div>Boys - ${studentData.boysCount}</div>
+                                        <div class="mb-2">Girls - ${studentData.girlsCount}</div>
+                                        <div class="line-separation"></div>
+                                        <div>Total = ${studentData.boysCount + studentData.girlsCount} Students</div>
+                                        <div class="total-line"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col d-flex justify-content-end">
+                            <button class="compute-btn" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function threeColumnTableLayout(product, sizeTotals, {productHeader}) {
+    console.log(sizeTotals);
+    if(product == 'slacks_skirt_size' || product == 'polo_blouse_size') {
+        document.querySelector('.total-product-table').innerHTML = `
+            <thead>
+                <tr>
+                    <th scope="col">Size</th>
+                    <th scope="col">${productHeader.product1}</th>
+                    <th scope="col">${productHeader.product2}</th>
+                </tr>
+            </thead>
+            <tbody class="product-body">
+                <tr>
+                    <td>EXTRA SMALL</td>
+                    <td>${sizeTotals[0].size.extraSmall} PCS</td>
+                    <td>${sizeTotals[1].size.extraSmall} PCS</td>
+                </tr>
+                <tr>
+                    <td>SMALL</td>
+                    <td>${sizeTotals[0].size.small} PCS</td>
+                    <td>${sizeTotals[1].size.small} PCS</td>
+                </tr>
+                <tr>
+                    <td>MEDIUM</td>
+                    <td>${sizeTotals[0].size.medium} PCS</td>
+                    <td>${sizeTotals[1].size.medium} PCS</td>
+                </tr>
+                <tr>
+                    <td>LARGE</td>
+                    <td>${sizeTotals[0].size.large} PCS</td>
+                    <td>${sizeTotals[1].size.large} PCS</td>
+                </tr>
+                <tr>
+                    <td>EXTRA LARGE</td>
+                    <td>${sizeTotals[0].size.extraLarge} PCS</td>
+                    <td>${sizeTotals[1].size.extraLarge} PCS</td>
+                </tr><tr>
+                    <td>DOUBLE XL</td>
+                    <td>${sizeTotals[0].size.doubleXl} PCS</td>
+                    <td>${sizeTotals[1].size.doubleXl} PCS</td>
+                </tr>
+            </tbody>
+        `;
+    }
+
+    if(product == 't_shirt_size' || product == 'pants_size') {
+        docoument.querySelector('.total-product-table').innerHTML = `
+            <thead>
+                <tr>
+                    <th scope="col">Size</th>
+                    <th scope="col" class="product-header">${productHeader.productHeader}</th>
+                </tr>
+            </thead>
+            <tbody class="product-body">
+                <tr>
+                    <td>EXTRA SMALL</td>
+                    <td>${sizeTotals[0].size.extraSmall + sizeTotals[1].size.extraSmall} PCS</td>
+                </tr>
+                <tr>
+                    <td>SMALL</td>
+                    <td>${sizeTotals[0].size.small + sizeTotals[1].size.small} PCS</td>
+                </tr>
+                <tr>
+                    <td>MEDIUM</td>
+                    <td>${sizeTotals[0].size.medium + sizeTotals[1].size.medium} PCS</td>
+                </tr>
+                <tr>
+                    <td>LARGE</td>
+                    <td>${sizeTotals[0].size.large + sizeTotals[1].size.large} PCS</td>
+                </tr>
+                <tr>
+                    <td>EXTRA LARGE</td>
+                    <td>${sizeTotals[0].size.extraLarge + sizeTotals[1].size.extraLarge} PCS</td>
+                </tr>
+                <tr>
+                    <td>DOUBLE XL</td>
+                    <td>${sizeTotals[0].size.doubleXl + sizeTotals[1].size.doubleXl} PCS</td>
+                </tr>
+            </tbody>
+        `;
+    }
+}
+
+function twoColumnTableLayout(product) {
+
+    if(product == 'school_supplies') {
+        docoument.querySelector('.total-product-table').innerHTML = `
+            <thead>
+                <tr>
+                    <th scope="col">GENDER</th>
+                    <th scope="col" class="product-header">YES</th>
+                    <th scope="col" class="product-header">NO</th>
+                </tr>
+            </thead>
+            <tbody class="product-body">
+                <tr>
+                    <td>MALE</td>
+                    <td>${maleShoeSizeTotal.yes}</td>
+                    <td>${maleShoeSizeTotal.no}</td>
+                </tr>
+                <tr>
+                    <td>FEMALE</td>
+                    <td>${femaleShoeSizeTotal.yes}</td>
+                    <td>${femaleShoeSizeTotal.no}</td>
+                </tr>
+            </tbody>
+        `;
+    }
+
+    if(product == 'shoe_size') {
+        docoument.querySelector('.total-product-table').innerHTML = `
+            <thead>
+                <tr>
+                    <th scope="col">SIZE</th>
+                    <th scope="col" class="product-header">TOTAL</th>
+                </tr>
+            </thead>
+            <tbody class="product-body">
+                
+            </tbody>
+        `;
+    }
 }
 

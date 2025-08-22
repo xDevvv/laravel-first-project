@@ -16,8 +16,8 @@ class LguController extends Controller
     public function studentRecords($gradeLevel, $productSelected) {
 
         $data = Students::select('gender', $productSelected . ' as size', DB::raw('COUNT(*) as total'))
-        ->where('grade_level', 1)
-        ->groupBy('gender')
+        ->where('grade_level', $gradeLevel)
+        ->groupBy('gender', $productSelected)
         ->get();
 
         return response()->json($data);
