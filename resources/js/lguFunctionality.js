@@ -35,11 +35,18 @@ productBtns.forEach((btn) => {
 
 const computeBtn = document.querySelector('.final-compute');
 computeBtn.addEventListener('click' , async () => {
+    
+    if(gradeSelected == undefined || productSelected == undefined) {
+        const toastElement = document.getElementById('myToast');
+        const toast = new bootstrap.Toast(toastElement, { delay: 3000 }); // auto hide after 3s
+        toast.show();
+        return;
+    }
 
     const request = await fetch(`request/info/${gradeSelected}/${productSelected}`)
     const data = await request.json();
 
-    lguFirstModal(gradeSelected, productSelected, data)
+    lguFirstModal(gradeSelected, productSelected, data);
 })
 
 
@@ -63,7 +70,6 @@ document.querySelector('#lgu-print').addEventListener('click', () => {
 })
 
 function lguFirstModal(gradeLevel, product, data) {
-
     const secondModalModalBtn = document.querySelector('#modal-select-file');
     
     const sizeMap = {
@@ -85,7 +91,6 @@ function lguFirstModal(gradeLevel, product, data) {
     let boysCount = 0;
     let girlsCount = 0;
 
-    const firstModal = document.querySelector('#lgu-modal-1-container');
     
     if(product == 'slacks_skirt_size' || product == 'polo_blouse_size') {
 
@@ -107,7 +112,6 @@ function lguFirstModal(gradeLevel, product, data) {
                 boysCount += parseInt(value.total);
                 sizeTotals[0].size[sizeMap[value.size]] += parseInt(value.total);
             }
-
             if(value.gender == 'Female') {
                 girlsCount += parseInt(value.total);
                 sizeTotals[1].size[sizeMap[value.size]] += parseInt(value.total);
@@ -137,6 +141,7 @@ function lguFirstModal(gradeLevel, product, data) {
             containerFile.innerHTML = '';
 
             if(secondModalModalBtn.value == 'overall') {
+                console.log(sizeTotals[0]);
                 containerFile.innerHTML = `
                     <div class="container file">
                         <div class="row p-3 file-main-header">
@@ -173,33 +178,33 @@ function lguFirstModal(gradeLevel, product, data) {
                                     <tbody class="student-table-body">
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Extra Small (XL)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].extraSmall} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].extraSmall} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.extraSmall} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].size.extraSmall} PCS</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Small (S)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].small} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].small} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.small} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].size.small} PCS</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Medium (M)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].medium} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].medium} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.medium} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].size.medium} PCS</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Large (L)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].large} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].large} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.large} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].size.large} PCS</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Extra Large (XL)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].extraLarge} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].extraLarge} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.extraLarge} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].size.extraLarge} PCS</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Double Extra Large (XXL)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].doubleXl} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].doubleXl} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.doubleXl} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].size.doubleXl} PCS</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -234,6 +239,7 @@ function lguFirstModal(gradeLevel, product, data) {
             } 
 
             if(secondModalModalBtn.value == 'per-section') {
+                console.log('none');
                 fetch(`request/student/per_section/${gradeLevel}`)
                 .then(response => response.json())
                 .then(data => {
@@ -271,16 +277,14 @@ function lguFirstModal(gradeLevel, product, data) {
                         let boysCount = 0;
                         let girlsCount = 0;
 
-                        fetch(`request/section/boys/${gradeLevel}/${data[i].section}`)
+                        fetch(`request/section/${gradeLevel}/${data[i].section}`)
                         .then(response => response.json())
                         .then(data => {
-
-                            console.log(data)
                             let hasBoysHeader = false;
 
-                            for(let i = 0; i < data.length; i++) {
+                            for(let i = 0; i < data.boys.length; i++) {
                                 
-                                const tableBody = document.querySelector(`.${data[i].section}-student-table-body`);
+                                const tableBody = document.querySelector(`.${data.boys[i].section}-student-table-body`);
                                 
                                 if(!hasBoysHeader) {
                                     let boysHeader = document.createElement('tr');
@@ -296,38 +300,20 @@ function lguFirstModal(gradeLevel, product, data) {
 
                                 boysCount++;
                                 const row = document.createElement('tr');
-                                if(product == 'slacks_skirt_size') {
-                                    row.innerHTML = `
-                                        <td style="text-align: center; font-size: 12px;">${boysCount}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data[i].first_name} ${data[i].last_name}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data[i].slacks_skirt_size}</td>
-                                    `;
-                                }
-
-                                if(product == 'polo_blouse_size') {
-                                    row.innerHTML = `
-                                        <td style="text-align: center; font-size: 12px;">${boysCount}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data[i].first_name} ${data[i].last_name}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data[i].polo_blouse_size}</td>
-                                    `;
-                                }
-                                
+                                row.innerHTML = `
+                                    <td style="text-align: center; font-size: 12px;">${boysCount}</td>
+                                    <td style="text-align: center; font-size: 12px;">${data.boys[i].first_name} ${data.boys[i].last_name}</td>
+                                    <td style="text-align: center; font-size: 12px;">${data.boys[i].slacks_skirt_size}</td>
+                                `;
                                 
                                 tableBody.appendChild(row);
-
-                                document.querySelector(`.${data[i].section}-total-student`).innerHTML = `Total Students: ${boysCount + girlsCount} Students`;
                             }
-                        });
-
-                        fetch(`request/section/girls/${gradeLevel}/${data[i].section}`)
-                        .then(response => response.json())
-                        .then(data => {
 
                             let hasGirlsHeader = false;
 
-                            for(let i = 0; i < data.length; i++) {
+                            for(let i = 0; i < data.girls.length; i++) {
                                 
-                                const tableBody = document.querySelector(`.${data[i].section}-student-table-body`);    
+                                const tableBody = document.querySelector(`.${data.girls[i].section}-student-table-body`);    
                                 
                                 if(!hasGirlsHeader) {
                                     let girlsHeader = document.createElement('tr');
@@ -345,13 +331,14 @@ function lguFirstModal(gradeLevel, product, data) {
                                 const row = document.createElement('tr');
                                 row.innerHTML = `
                                     <td style="text-align: center; font-size: 12px;">${girlsCount}</td>
-                                    <td style="text-align: center; font-size: 12px;">${data[i].first_name} ${data[i].last_name}</td>
-                                    <td style="text-align: center; font-size: 12px;">${data[i].slacks_skirt_size}</td>
+                                    <td style="text-align: center; font-size: 12px;">${data.girls[i].first_name} ${data.girls[i].last_name}</td>
+                                    <td style="text-align: center; font-size: 12px;">${data.girls[i].slacks_skirt_size}</td>
                                 `;
                                 
                                 tableBody.appendChild(row);
-                                document.querySelector(`.${data[i].section}-total-student`).innerHTML = `Total Students: ${boysCount + girlsCount} Students`;
+                                
                             }
+                            document.querySelector(`.${data.girls.girls[i].section}-total-student`).innerHTML = `Total Students: ${boysCount + girlsCount} Students`;
                         });
                     } 
                 });
@@ -360,13 +347,12 @@ function lguFirstModal(gradeLevel, product, data) {
     }
 
     if(product == 't_shirt_size' || product == 'pants_size') {
-        
+
         (product == 't_shirt_size') ? modalContainerTitle = 'T-Shirt' : modalContainerTitle = 'Pants';
         (product == 't_shirt_size') ? productHeader = 'T-Shirt' : productHeader = 'Pants';
 
+        console.log(productHeader);
         data.forEach((value) => {
-
-            console.log(value.gender);
             if(value.gender == 'Male') {
                 boysCount += parseInt(value.total);
                 sizeTotals[0].size[sizeMap[value.size]] += parseInt(value.total);
@@ -378,15 +364,13 @@ function lguFirstModal(gradeLevel, product, data) {
             }
         });
 
-
-
         firstModalInsertion({
             modalTitle: modalContainerTitle,
             productHeader: productHeader,
             studentData: {sizeTotals: sizeTotals, boysCount: boysCount, girlsCount: girlsCount, gradeLevel: gradeLevel},
         });
 
-        threeColumnTableLayout(product, sizeTotals, {productHeader: {product1: product1, product2: product2}});
+        threeColumnTableLayout(product, sizeTotals, {productHeader: productHeader});
 
         secondModalModalBtn.addEventListener('change', () => {
 
@@ -394,7 +378,6 @@ function lguFirstModal(gradeLevel, product, data) {
             containerFile.innerHTML = '';
 
             if(secondModalModalBtn.value == 'overall') {
-
                 containerFile.innerHTML = `
                     <div class="container file">
                         <div class="row p-3 file-main-header">
@@ -430,27 +413,27 @@ function lguFirstModal(gradeLevel, product, data) {
                                     <tbody class="student-table-body">
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Extra Small (XL)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals.extraSmall} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.extraSmall + sizeTotals[1].size.extraSmall} PCS</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Small (S)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals.small} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.small + sizeTotals[1].size.small} PCS</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Medium (M)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals.medium} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.medium + sizeTotals[1].size.medium} PCS</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Large (L)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals.large} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.large + sizeTotals[1].size.large} PCS</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Extra Large (XL)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals.extraLarge} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.extraLarge + sizeTotals[1].size.extraLarge} PCS</td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Double Extra Large (XXL)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals.doubleXl} PCS</td>
+                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.doubleXl + sizeTotals[1].size.doubleXl} PCS</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -484,7 +467,7 @@ function lguFirstModal(gradeLevel, product, data) {
 
             if(secondModalModalBtn.value == 'per-section') {
 
-                fetch(`request/student/per_section`)
+                fetch(`request/student/per_section/${gradeLevel}`)
                 .then(response => response.json())
                 .then(data => {
 
@@ -518,92 +501,111 @@ function lguFirstModal(gradeLevel, product, data) {
                                 </div>
                             </div>    
                         `);
-                            
+                        
+                        let boysCount = 0;
+                        let girlsCount = 0;
+
                         fetch(`request/section/${gradeLevel}/${data[i].section}`)
                         .then(response => response.json())
                         .then(data => {
-
-                            let hasGirlsHeader = false;
                             let hasBoysHeader = false;
-                            let boysCount = 0;
-                            let girlsCount = 0;
 
-                            for(let i = 0; i < data.length; i++) {
+                            for(let i = 0; i < data.boys.length; i++) {
                                 
-                                const tableBody = document.querySelector(`.${data[i].section}-student-table-body`);
-                                const teacherName = document.querySelector('.lgu-second-modal-header');
-                                const sectionName = document.querySelector('.lgu-second-modal-header');
-                            
-                                    
-                                if(data[i].gender == 'Female') {
-                                    if (!hasGirlsHeader) {
-                                        let girlsHeader = document.createElement('tr');
-                                        girlsHeader.innerHTML = `
-                                            <td style="text-align: center; font-size: 12px;"></td>
-                                            <td style="text-align: center; font-size: 12px; color: red;">Girls</td>
-                                            <td style="text-align: center; font-size: 12px;"></td>
-                                        `;
-                                        tableBody.appendChild(girlsHeader);
-
-                                        hasGirlsHeader = true;
-                                    }
-
-                                    girlsCount++;
-                                    const row = document.createElement('tr');
-                                    row.innerHTML = `
-                                        <td style="text-align: center; font-size: 12px;">${girlsCount}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data[i].first_name} ${data[i].last_name}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data[i].slacks_skirt_size}</td>
+                                const tableBody = document.querySelector(`.${data.boys[i].section}-student-table-body`);
+                                
+                                if(!hasBoysHeader) {
+                                    let boysHeader = document.createElement('tr');
+                                    boysHeader.innerHTML = `
+                                        <td style="text-align: center; font-size: 12px;"></td>
+                                        <td style="text-align: center; font-size: 12px; color: red;">Boys</td>
+                                        <td style="text-align: center; font-size: 12px;"></td>
                                     `;
-                                    
-                                    tableBody.appendChild(row);
+
+                                    tableBody.appendChild(boysHeader);
+                                    hasBoysHeader = true;
                                 }
-                                
 
-
-                                
-
-                                if(data[i].gender == 'Male') {
-                                    if(!hasBoysHeader) {
-                                        let boysHeader = document.createElement('tr');
-                                        boysHeader.innerHTML = `
-                                            <td style="text-align: center; font-size: 12px;"></td>
-                                            <td style="text-align: center; font-size: 12px; color: red;">Boys</td>
-                                            <td style="text-align: center; font-size: 12px;"></td>
-                                        `;
-
-                                        tableBody.appendChild(boysHeader);
-
-                                        hasBoysHeader = true;
-                                    }
-
-                                    boysCount++;
-                                    const row = document.createElement('tr');
+                                boysCount++;
+                                const row = document.createElement('tr');
+                                if(product == 't_shirt_size') {
                                     row.innerHTML = `
                                         <td style="text-align: center; font-size: 12px;">${boysCount}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data[i].first_name} ${data[i].last_name}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data[i].slacks_skirt_size}</td>
+                                        <td style="text-align: center; font-size: 12px;">${data.boys[i].first_name} ${data.boys[i].last_name}</td>
+                                        <td style="text-align: center; font-size: 12px;">${data.boys[i].t_shirt_size}</td>
                                     `;
-                                    
-                                    tableBody.appendChild(row);
                                 }
-                                document.querySelector(`.${data[i].section}-total-student`).innerHTML = `Total Students: ${boysCount + girlsCount} Students`;
-                            }
-                            
-                            
 
-                            
+                                if(product == 'pants_size') {
+                                    row.innerHTML = `
+                                        <td style="text-align: center; font-size: 12px;">${boysCount}</td>
+                                        <td style="text-align: center; font-size: 12px;">${data.boys[i].first_name} ${data.boys[i].last_name}</td>
+                                        <td style="text-align: center; font-size: 12px;">${data.boys[i].pants_size}</td>
+                                    `;
+                                }
+                                
+                                tableBody.appendChild(row);
+                            }
+
+                            let hasGirlsHeader = false;
+
+                            for(let i = 0; i < data.girls.length; i++) {
+                                
+                                const tableBody = document.querySelector(`.${data.girls[i].section}-student-table-body`);    
+                                
+                                if(!hasGirlsHeader) {
+                                    let girlsHeader = document.createElement('tr');
+                                    girlsHeader.innerHTML = `
+                                        <td style="text-align: center; font-size: 12px;"></td>
+                                        <td style="text-align: center; font-size: 12px; color: red;">Girls</td>
+                                        <td style="text-align: center; font-size: 12px;"></td>
+                                    `;
+
+                                    tableBody.appendChild(girlsHeader);
+                                    hasGirlsHeader = true;
+                                }
+
+                                girlsCount++;
+                                const row = document.createElement('tr');
+                                if(product == 't_shirt_size') {
+                                    row.innerHTML = `
+                                        <td style="text-align: center; font-size: 12px;">${boysCount}</td>
+                                        <td style="text-align: center; font-size: 12px;">${data.girls[i].first_name} ${data.girls[i].last_name}</td>
+                                        <td style="text-align: center; font-size: 12px;">${data.girls[i].t_shirt_size}</td>
+                                    `;
+                                }
+
+                                if(product == 'pants_size') {
+                                    row.innerHTML = `
+                                        <td style="text-align: center; font-size: 12px;">${boysCount}</td>
+                                        <td style="text-align: center; font-size: 12px;">${data.girls[i].first_name} ${data.girls[i].last_name}</td>
+                                        <td style="text-align: center; font-size: 12px;">${data.girls[i].pants_size}</td>
+                                    `;
+                                }
+                                tableBody.appendChild(row);
+                            }
+                            document.querySelector(`.${data.girls[i].section}-total-student`).innerHTML = `Total Students: ${boysCount + girlsCount} Students`;
                         });
-                    }
-                    console.log(data.length);
+                    } 
                 })
             }
         });
     }
 
+    if(product == 'shoe_size') {
+        modalContainerTitle = 'Shoes';
+
+        firstModalInsertion({
+            modalTitle: modalContainerTitle,
+            productHeader: productHeader,
+            studentData: {boysCount: boysCount, girlsCount: girlsCount, gradeLevel: gradeLevel},
+        });
+        twoColumnTableLayout(product, {data});
+    }
+
     if(product == 'school_supplies') {
 
-        modalContainerTitle = 'Shoes';
+        modalContainerTitle = 'School Supplies';
         productHeader = 'Needed';
 
         const maleShoeSizeTotal = {
@@ -635,139 +637,10 @@ function lguFirstModal(gradeLevel, product, data) {
             studentData: {boysCount: boysCount, girlsCount: girlsCount, gradeLevel: gradeLevel},
         });
 
-        firstModal.innerHTML = `
-            <div class="modal-dialog modal-dialog-centered modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="container-fluid d-flex justify-content-end">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="container-fluid modal-container-title">${modalContainerTitle}</div>
-                        <div class="container-fluid student-information modal-student-information-container mb-3">
-                            <h3>Grade ${gradeLevel}</h3>
-                            <div class="row mx-2 mx-sm-5">
-                                <div class="col">
-                                    <table class="table table-bordered total-product-table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">GENDER</th>
-                                                <th scope="col" class="product-header">YES</th>
-                                                <th scope="col" class="product-header">NO</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="product-body">
-                                            <tr>
-                                                <td>MALE</td>
-                                                <td>${maleShoeSizeTotal.yes}</td>
-                                                <td>${maleShoeSizeTotal.no}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>FEMALE</td>
-                                                <td>${femaleShoeSizeTotal.yes}</td>
-                                                <td>${femaleShoeSizeTotal.no}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="overall-total-container col d-flex justify-content-end">
-                                    <div class="outer-container">
-                                        <div class="inner-container">
-                                            <div class="overall-grade-header">Grade ${gradeLevel}</div>
-                                            <div class="d-flex flex-column">
-                                                <div>Boys - ${boysCount}</div>
-                                                <div class="mb-2">Girls - ${girlsCount}</div>
-                                                <div class="line-separation"></div>
-                                                <div>Total = ${boysCount + girlsCount} Students</div>
-                                                <div class="total-line"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col d-flex justify-content-end">
-                                    <button class="compute-btn" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Next</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
+        twoColumnTableLayout(product, {data: {maleShoeSizeTotal, femaleShoeSizeTotal}});
     }
 
-    if(product == 'shoe_size') {
-        modalContainerTitle = 'Shoes';
-
-        firstModal.innerHTML = `
-            <div class="modal-dialog modal-dialog-centered modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="container-fluid d-flex justify-content-end">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="container-fluid modal-container-title">${modalContainerTitle}</div>
-                        <div class="container-fluid student-information modal-student-information-container mb-3">
-                            <h3>Grade ${gradeLevel}</h3>
-                            <div class="row mx-2 mx-sm-5">
-                                <div class="col">
-                                    <table class="table table-bordered total-product-table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">SIZE</th>
-                                                <th scope="col" class="product-header">TOTAL</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="product-body">
-                                            
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="overall-total-container col d-flex justify-content-end">
-                                    <div class="outer-container">
-                                        <div class="inner-container">
-                                            <div class="overall-grade-header">Grade ${gradeLevel}</div>
-                                            <div class="d-flex flex-column">
-                                                <div class="boys-total"></div>
-                                                <div class="mb-2 girls-total"></div>
-                                                <div class="line-separation"></div>
-                                                <div class="overall-student"></div>
-                                                <div class="total-line"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col d-flex justify-content-end">
-                                    <button class="compute-btn" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Next</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        data.forEach((value) => {
-            document.querySelector('.product-body').insertAdjacentHTML('beforeend', `
-                <tr>
-                    <td>${value.size}</td>
-                    <td>${value.total}</td>
-                </tr>
-            `);
-
-            (value.gender == 'Male') ? boysCount += parseInt(value.total) : girlsCount += parseInt(value.total);
-        });
-
-        document.querySelector('.boys-total').innerHTML = `Boys - ${boysCount}`;
-        document.querySelector('.girls-total').innerHTML = `Girls - ${girlsCount}`;
-        document.querySelector('.overall-student').innerHTML = `Total = ${boysCount + girlsCount} Students`;
-    }
+    
 
 }
 
@@ -819,7 +692,6 @@ function firstModalInsertion({modalTitle, studentData}) {
 }
 
 function threeColumnTableLayout(product, sizeTotals, {productHeader}) {
-    console.log(sizeTotals);
     if(product == 'slacks_skirt_size' || product == 'polo_blouse_size') {
         document.querySelector('.total-product-table').innerHTML = `
             <thead>
@@ -864,11 +736,11 @@ function threeColumnTableLayout(product, sizeTotals, {productHeader}) {
     }
 
     if(product == 't_shirt_size' || product == 'pants_size') {
-        docoument.querySelector('.total-product-table').innerHTML = `
+        document.querySelector('.total-product-table').innerHTML = `
             <thead>
                 <tr>
                     <th scope="col">Size</th>
-                    <th scope="col" class="product-header">${productHeader.productHeader}</th>
+                    <th scope="col" class="product-header">${productHeader}</th>
                 </tr>
             </thead>
             <tbody class="product-body">
@@ -878,7 +750,7 @@ function threeColumnTableLayout(product, sizeTotals, {productHeader}) {
                 </tr>
                 <tr>
                     <td>SMALL</td>
-                    <td>${sizeTotals[0].size.small + sizeTotals[1].size.small} PCS</td>
+                <td>${sizeTotals[0].size.small + sizeTotals[1].size.small} PCS</td>
                 </tr>
                 <tr>
                     <td>MEDIUM</td>
@@ -901,34 +773,10 @@ function threeColumnTableLayout(product, sizeTotals, {productHeader}) {
     }
 }
 
-function twoColumnTableLayout(product) {
-
-    if(product == 'school_supplies') {
-        docoument.querySelector('.total-product-table').innerHTML = `
-            <thead>
-                <tr>
-                    <th scope="col">GENDER</th>
-                    <th scope="col" class="product-header">YES</th>
-                    <th scope="col" class="product-header">NO</th>
-                </tr>
-            </thead>
-            <tbody class="product-body">
-                <tr>
-                    <td>MALE</td>
-                    <td>${maleShoeSizeTotal.yes}</td>
-                    <td>${maleShoeSizeTotal.no}</td>
-                </tr>
-                <tr>
-                    <td>FEMALE</td>
-                    <td>${femaleShoeSizeTotal.yes}</td>
-                    <td>${femaleShoeSizeTotal.no}</td>
-                </tr>
-            </tbody>
-        `;
-    }
+function twoColumnTableLayout(product, {data}) {
 
     if(product == 'shoe_size') {
-        docoument.querySelector('.total-product-table').innerHTML = `
+        document.querySelector('.total-product-table').innerHTML = `
             <thead>
                 <tr>
                     <th scope="col">SIZE</th>
@@ -939,6 +787,47 @@ function twoColumnTableLayout(product) {
                 
             </tbody>
         `;
+
+        data.forEach((value) => {
+            document.querySelector('.product-body').insertAdjacentHTML('beforeend', `
+                <tr>
+                    <td>${value.size}</td>
+                    <td>${value.total}</td>
+                </tr>
+            `);
+
+            (value.gender == 'Male') ? boysCount += parseInt(value.total) : girlsCount += parseInt(value.total);
+
+        });
+
+        document.querySelector('.boys-total').innerHTML = `Boys - ${boysCount}`;
+        document.querySelector('.girls-total').innerHTML = `Girls - ${girlsCount}`;
+        document.querySelector('.overall-student').innerHTML = `Total = ${boysCount + girlsCount} Students`;
+    } 
+
+    if(product == 'school_supplies') {
+        document.querySelector('.total-product-table').innerHTML = `
+            <thead>
+                <tr>
+                    <th scope="col">GENDER</th>
+                    <th scope="col" class="product-header">YES</th>
+                    <th scope="col" class="product-header">NO</th>
+                </tr>
+            </thead>
+            <tbody class="product-body">
+                <tr>
+                    <td>MALE</td>
+                    <td>${data.maleShoeSizeTotal.yes}</td>
+                    <td>${data.maleShoeSizeTotal.no}</td>
+                </tr>
+                <tr>
+                    <td>FEMALE</td>
+                    <td>${data.femaleShoeSizeTotal.yes}</td>
+                    <td>${data.femaleShoeSizeTotal.no}</td>
+                </tr>
+            </tbody>
+        `;
+        
     }
 }
 
