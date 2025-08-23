@@ -23,26 +23,29 @@ class LguController extends Controller
         return response()->json($data);
     }
 
-    public function studentsSectionPerGradeLevel($gender, $gradeLevel, $section) {
 
-        $result = Students::table('students')
-                    ->where('grade_level', $gradeLevel)
-                    ->where('section', $section)
-                    ->where('gender', ucfirst($gender))
-                    ->findAll();
+    public function sectionPerGradeLevel($gradeLevel, $section) {
 
-        if (empty($result)) return response()->json(['message' => 'No Data Found ']);
+        $boys = Students::where('gender', 'Male')
+                        ->where('grade_level', $gradeLevel)
+                        ->where('section', $section)->get();
+
+        $girls = Students::where('gender', 'Female')
+                         ->where('grade_level', $gradeLevel)
+                         ->where('section', $section)->get();
+
+        if (empty($boys) && empty($girls)) return response()->json(['message' => 'No Data Found ']);
         
-        return response()->json($result);
+        return response()->json(['boys' => $boys, 'girls' => $girls]);
     }
 
     public function overallStudentPerSection($gradeLevel) {
 
-        $result = Students::table('students')
-                    ->select('*, COUNT(*) as total')
-                    ->groupBy('section')
-                    ->where('grade_level', $gradeLevel)
-                    ->findAll();
+        $result = DB::table('students')
+            ->selectRaw('section, COUNT(*) as total')
+            ->where('grade_level', $gradeLevel)
+            ->groupBy('section')
+            ->get();
 
         if (empty($result)) return response()->json(['message' => 'No Data Found ']);
 
