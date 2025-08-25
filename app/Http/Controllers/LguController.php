@@ -13,9 +13,12 @@ class LguController extends Controller
         return view('pages.lgu.lgu_dashboard', ['title_page' => $title_page]);
     }
 
+
     public function studentRecords($gradeLevel, $productSelected) {
 
-        $data = Students::select('gender', $productSelected . ' as size', DB::raw('COUNT(*) as total'))
+        $queryAlias = ($productSelected == 'school_supplies') ? 'school_supplies' : 'size';
+
+        $data = Students::select('gender', $productSelected . ' as ' . $queryAlias, DB::raw('COUNT(*) as total'))
         ->where('grade_level', $gradeLevel)
         ->groupBy('gender', $productSelected)
         ->get();
