@@ -124,7 +124,7 @@ function lguFirstModal(gradeLevel, product, data) {
             studentData: {boysCount: boysCount, girlsCount: girlsCount, gradeLevel: gradeLevel},
         });
 
-        threeColumnTableLayout(product, sizeTotals, {productHeader: {product1: product1, product2: product2}});
+        threeColumnTableLayout(product, {studentData: sizeTotals}, {productHeader: {product1: product1, product2: product2}});
 
         secondModalModalBtn.addEventListener('change', () => {
 
@@ -141,7 +141,6 @@ function lguFirstModal(gradeLevel, product, data) {
             containerFile.innerHTML = '';
 
             if(secondModalModalBtn.value == 'overall') {
-                console.log(sizeTotals[0]);
                 containerFile.innerHTML = `
                     <div class="container file">
                         <div class="row p-3 file-main-header">
@@ -370,7 +369,7 @@ function lguFirstModal(gradeLevel, product, data) {
             studentData: {sizeTotals: sizeTotals, boysCount: boysCount, girlsCount: girlsCount, gradeLevel: gradeLevel},
         });
 
-        threeColumnTableLayout(product, sizeTotals, {productHeader: productHeader});
+        threeColumnTableLayout(product, {studentData: sizeTotals}, {productHeader: productHeader});
 
         secondModalModalBtn.addEventListener('change', () => {
 
@@ -463,7 +462,7 @@ function lguFirstModal(gradeLevel, product, data) {
                         </div>
                     </div>    
                 `;
-            } 
+            }
 
             if(secondModalModalBtn.value == 'per-section') {
 
@@ -595,12 +594,65 @@ function lguFirstModal(gradeLevel, product, data) {
     if(product == 'shoe_size') {
         modalContainerTitle = 'Shoes';
 
+        data.forEach((value) => {
+            (value.gender == 'Male') ? boysCount += parseInt(value.total) : girlsCount += parseInt(value.total);
+        });
+        
         firstModalInsertion({
             modalTitle: modalContainerTitle,
             productHeader: productHeader,
             studentData: {boysCount: boysCount, girlsCount: girlsCount, gradeLevel: gradeLevel},
         });
-        twoColumnTableLayout(product, {data});
+        twoColumnTableLayout(product, {studentData: {shoeSize: data}});
+
+        secondModalModalBtn.addEventListener('change', () => {
+            
+            if(secondModalModalBtn.value == 'overall') {
+
+                overallLayout(modalContainerTitle);
+
+                let totalShoes = 0;
+                let totalSize = 0;
+
+                document.querySelector('.overall-layout-table').innerHTML = `
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;" scope="col">Size</th>
+                            <th Total style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;" scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="student-table-body overall-layout-table-body">
+                        
+                    </tbody>
+                `;
+
+                data.forEach((value) => {
+                    document.querySelector('.overall-layout-table-body').insertAdjacentHTML('beforeend', `
+                        <tr>
+                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${value.size}</td>
+                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${value.total} PCS</td>
+                        </tr>
+                    `);
+                    totalSize++;
+                    totalShoes += parseInt(value.total);
+                });
+
+                document.querySelector('.overall-table-total').innerHTML = `
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;" scope="col">Size</th>
+                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;" scope="col">Total</th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="student-table-body">
+                        <tr>
+                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${totalSize}</td>
+                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${totalShoes} PCS</td>
+                        </tr>
+                    </tbody>
+                `;
+            }
+        });
     }
 
     if(product == 'school_supplies') {
@@ -608,40 +660,29 @@ function lguFirstModal(gradeLevel, product, data) {
         modalContainerTitle = 'School Supplies';
         productHeader = 'Needed';
 
-        const maleShoeSizeTotal = {
-            yes: 0,
-            no: 0
-        }
+        const maleTotal = {yes: 0, no: 0}
 
-        const femaleShoeSizeTotal = {
-            yes: 0,
-            no: 0
-        }
+        const femaleTotal = {yes: 0, no: 0}
 
         data.forEach((value) => {
-
             if(value.gender == 'Female') {
-                (value.size == 'yes') ? femaleShoeSizeTotal.yes += parseInt(value.total) : femaleShoeSizeTotal.no += parseInt(value.total);
+                (value.size == 'yes') ? femaleTotal.yes += parseInt(value.total) : femaleTotal.no += parseInt(value.total);
             }
 
             if(value.gender == 'Male') {
-                (value.size == 'yes') ? maleShoeSizeTotal.yes += parseInt(value.total) : maleShoeSizeTotal.no += parseInt(value.total);
+                (value.size == 'yes') ? maleTotal.yes += parseInt(value.total) : maleTotal.no += parseInt(value.total);
             }
 
             (value.gender == 'Male') ? boysCount += parseInt(value.total) : girlsCount += parseInt(value.total);
         });
-
         firstModalInsertion({
             modalTitle: modalContainerTitle,
             productHeader: productHeader,
             studentData: {boysCount: boysCount, girlsCount: girlsCount, gradeLevel: gradeLevel},
         });
 
-        twoColumnTableLayout(product, {data: {maleShoeSizeTotal, femaleShoeSizeTotal}});
+        twoColumnTableLayout(product, {studentData: {schoolSupplies: data, male: maleTotal, female: femaleTotal}});
     }
-
-    
-
 }
 
 function firstModalInsertion({modalTitle, studentData}) {
@@ -668,10 +709,10 @@ function firstModalInsertion({modalTitle, studentData}) {
                                 <div class="inner-container">
                                     <div class="overall-grade-header">Grade ${studentData.gradeLevel}</div>
                                     <div class="d-flex flex-column">
-                                        <div>Boys - ${studentData.boysCount}</div>
-                                        <div class="mb-2">Girls - ${studentData.girlsCount}</div>
+                                        <div class="boys-total">Boys - ${studentData.boysCount}</div>
+                                        <div class="mb-2 girls-total">Girls - ${studentData.girlsCount}</div>
                                         <div class="line-separation"></div>
-                                        <div>Total = ${studentData.boysCount + studentData.girlsCount} Students</div>
+                                        <div class="overall-student">Total = ${studentData.boysCount + studentData.girlsCount} Students</div>
                                         <div class="total-line"></div>
                                     </div>
                                 </div>
@@ -691,7 +732,7 @@ function firstModalInsertion({modalTitle, studentData}) {
     `;
 }
 
-function threeColumnTableLayout(product, sizeTotals, {productHeader}) {
+function threeColumnTableLayout(product, {studentData}, {productHeader}) {
     if(product == 'slacks_skirt_size' || product == 'polo_blouse_size') {
         document.querySelector('.total-product-table').innerHTML = `
             <thead>
@@ -704,32 +745,32 @@ function threeColumnTableLayout(product, sizeTotals, {productHeader}) {
             <tbody class="product-body">
                 <tr>
                     <td>EXTRA SMALL</td>
-                    <td>${sizeTotals[0].size.extraSmall} PCS</td>
-                    <td>${sizeTotals[1].size.extraSmall} PCS</td>
+                    <td>${studentData.sizeTotals[0].size.extraSmall} PCS</td>
+                    <td>${studentData.sizeTotals[1].size.extraSmall} PCS</td>
                 </tr>
                 <tr>
                     <td>SMALL</td>
-                    <td>${sizeTotals[0].size.small} PCS</td>
-                    <td>${sizeTotals[1].size.small} PCS</td>
+                    <td>${studentData.sizeTotals[0].size.small} PCS</td>
+                    <td>${studentData.sizeTotals[1].size.small} PCS</td>
                 </tr>
                 <tr>
                     <td>MEDIUM</td>
-                    <td>${sizeTotals[0].size.medium} PCS</td>
-                    <td>${sizeTotals[1].size.medium} PCS</td>
+                    <td>${studentData.sizeTotals[0].size.medium} PCS</td>
+                    <td>${studentData.sizeTotals[1].size.medium} PCS</td>
                 </tr>
                 <tr>
                     <td>LARGE</td>
-                    <td>${sizeTotals[0].size.large} PCS</td>
-                    <td>${sizeTotals[1].size.large} PCS</td>
+                    <td>${studentData.sizeTotals[0].size.large} PCS</td>
+                    <td>${studentData.sizeTotals[1].size.large} PCS</td>
                 </tr>
                 <tr>
                     <td>EXTRA LARGE</td>
-                    <td>${sizeTotals[0].size.extraLarge} PCS</td>
-                    <td>${sizeTotals[1].size.extraLarge} PCS</td>
+                    <td>${studentData.sizeTotals[0].size.extraLarge} PCS</td>
+                    <td>${studentData.sizeTotals[1].size.extraLarge} PCS</td>
                 </tr><tr>
                     <td>DOUBLE XL</td>
-                    <td>${sizeTotals[0].size.doubleXl} PCS</td>
-                    <td>${sizeTotals[1].size.doubleXl} PCS</td>
+                    <td>${studentData.sizeTotals[0].size.doubleXl} PCS</td>
+                    <td>${studentData.sizeTotals[1].size.doubleXl} PCS</td>
                 </tr>
             </tbody>
         `;
@@ -746,35 +787,34 @@ function threeColumnTableLayout(product, sizeTotals, {productHeader}) {
             <tbody class="product-body">
                 <tr>
                     <td>EXTRA SMALL</td>
-                    <td>${sizeTotals[0].size.extraSmall + sizeTotals[1].size.extraSmall} PCS</td>
+                    <td>${studentData.sizeTotals[0].size.extraSmall + studentData.sizeTotals[1].size.extraSmall} PCS</td>
                 </tr>
                 <tr>
                     <td>SMALL</td>
-                <td>${sizeTotals[0].size.small + sizeTotals[1].size.small} PCS</td>
+                <td>${studentData.sizeTotals[0].size.small + studentData.sizeTotals[1].size.small} PCS</td>
                 </tr>
                 <tr>
                     <td>MEDIUM</td>
-                    <td>${sizeTotals[0].size.medium + sizeTotals[1].size.medium} PCS</td>
+                    <td>${studentData.sizeTotals[0].size.medium + studentData.sizeTotals[1].size.medium} PCS</td>
                 </tr>
                 <tr>
                     <td>LARGE</td>
-                    <td>${sizeTotals[0].size.large + sizeTotals[1].size.large} PCS</td>
+                    <td>${studentData.sizeTotals[0].size.large + studentData.sizeTotals[1].size.large} PCS</td>
                 </tr>
                 <tr>
                     <td>EXTRA LARGE</td>
-                    <td>${sizeTotals[0].size.extraLarge + sizeTotals[1].size.extraLarge} PCS</td>
+                    <td>${studentData.sizeTotals[0].size.extraLarge + studentData.sizeTotals[1].size.extraLarge} PCS</td>
                 </tr>
                 <tr>
                     <td>DOUBLE XL</td>
-                    <td>${sizeTotals[0].size.doubleXl + sizeTotals[1].size.doubleXl} PCS</td>
+                    <td>${studentData.sizeTotals[0].size.doubleXl + studentData.sizeTotals[1].size.doubleXl} PCS</td>
                 </tr>
             </tbody>
         `;
     }
 }
 
-function twoColumnTableLayout(product, {data}) {
-
+function twoColumnTableLayout(product, {studentData}) {
     if(product == 'shoe_size') {
         document.querySelector('.total-product-table').innerHTML = `
             <thead>
@@ -787,22 +827,14 @@ function twoColumnTableLayout(product, {data}) {
                 
             </tbody>
         `;
-
-        data.forEach((value) => {
+        studentData.shoeSize.forEach((value) => {
             document.querySelector('.product-body').insertAdjacentHTML('beforeend', `
                 <tr>
                     <td>${value.size}</td>
                     <td>${value.total}</td>
                 </tr>
             `);
-
-            (value.gender == 'Male') ? boysCount += parseInt(value.total) : girlsCount += parseInt(value.total);
-
         });
-
-        document.querySelector('.boys-total').innerHTML = `Boys - ${boysCount}`;
-        document.querySelector('.girls-total').innerHTML = `Girls - ${girlsCount}`;
-        document.querySelector('.overall-student').innerHTML = `Total = ${boysCount + girlsCount} Students`;
     } 
 
     if(product == 'school_supplies') {
@@ -817,17 +849,62 @@ function twoColumnTableLayout(product, {data}) {
             <tbody class="product-body">
                 <tr>
                     <td>MALE</td>
-                    <td>${data.maleShoeSizeTotal.yes}</td>
-                    <td>${data.maleShoeSizeTotal.no}</td>
+                    <td>${studentData.male.no}</td>
+                    <td>${studentData.male.yes}</td>
                 </tr>
                 <tr>
                     <td>FEMALE</td>
-                    <td>${data.femaleShoeSizeTotal.yes}</td>
-                    <td>${data.femaleShoeSizeTotal.no}</td>
+                    <td>${studentData.female.no}</td>
+                    <td>${studentData.female.yes}</td>
                 </tr>
             </tbody>
         `;
-        
     }
+}
+
+function overallLayout(modalContainerTitle) {
+    const containerFile = document.querySelector('.per-section-info');
+    containerFile.innerHTML = `
+        <div class="container file">
+            <div class="row p-3 file-main-header">
+                <div class="col-3 d-flex justify-content-start lgu-second-modal-header"><img class="img-fluid" src="/images/ntc-logo.png"></div>
+                <div class="col px-0 lgu-second-modal-header">
+                    <p>NATIONAL TEACHER'S COLLEGE</p>
+                    <p>OVERALL GRADE 1 SUPPLY</p>
+                    <p>${modalContainerTitle.toUpperCase()}</p>
+                </div>
+                <div class="col-3 d-flex justify-content-end lgu-second-modal-header"><img class="img-fluid" src="images/manila-seal-logo.png"></div>
+            </div>
+            <div class="row px-3 file-date-container">
+                <div class="col d-flex file-date-line">
+                    <strong>DATE:</strong> <p>June 09, 2025</p></div>
+                </div>
+            <div class="row px-3 file-location-container">
+                <div class="col d-flex file-location-line">
+                    <strong>LOCATION:</strong><p>629 J. NEPUOMUCENO STREET, QUIAPO, MANILA, PHILIPPINES</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col py-3 d-flex justify-content-center modal-content-title">${modalContainerTitle.toUpperCase()}</div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table overall-layout-table">
+                        
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col py-3 d-flex justify-content-center modal-content-title">OVERALL TOTAL</div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table overall-table-total">
+                        
+                    </table>
+                </div>
+            </div>
+        </div>    
+    `;
 }
 
