@@ -141,5 +141,5 @@
 @endsection
 
 @section('script')
-    @vite('resources/js/lguFunctionality.js')
+    @vite('resources/js/lgu/lguFunctionality.js')
 @endsection
