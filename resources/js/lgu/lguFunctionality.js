@@ -2,6 +2,8 @@ import { slacksSkirt_poloBlouse_table_header, slacksSkirt_poloBlouse_table_body,
          shirt_and_pants_table_header, shirt_and_pants_table_body, 
          shoe_size_table_header, shoe_size_table_body, 
          school_supplies_table_header, school_supplies_table_body,
+         dataInsertionLayout,
+         fetchStudentData
         } from "./layout";
 
 
@@ -99,16 +101,10 @@ function lguFirstModal(gradeLevel, product, data) {
     let boysCount = 0;
     let girlsCount = 0;
 
-    
     if(product == 'slacks_skirt_size' || product == 'polo_blouse_size') {
 
         let product1;
         let product2;
-
-        const sizeTotals = [
-            {gender: 'Male', size: {extraSmall: 0, small: 0, medium: 0, large: 0, extraLarge: 0, doubleXl: 0}},
-            {gender: 'Female', size: {extraSmall: 0, small: 0, medium: 0, large: 0, extraLarge: 0, doubleXl: 0}}, 
-        ];
 
         (product == 'slacks_skirt_size') ? product1 = 'Slacks' : product1 = 'Polo';
         (product == 'slacks_skirt_size') ? product2 = 'Skirt' : product2 = 'Blouse';
@@ -135,113 +131,14 @@ function lguFirstModal(gradeLevel, product, data) {
 
         secondModalModalBtn.addEventListener('change', () => {
 
-            let boysOverallTotal;
-            let girlsOverallTotal;
-
-            sizeTotals.forEach((value) => {
-                if(value.gender == 'Male') boysOverallTotal = Object.values(value.size).reduce((acc, curr) => acc + curr, 0);
-                if(value.gender == 'Female') girlsOverallTotal = Object.values(value.size).reduce((acc, curr) => acc + curr, 0);
-            });
-
-
             const containerFile = document.querySelector('.per-section-info');
             containerFile.innerHTML = '';
 
             if(secondModalModalBtn.value == 'overall') {
-                containerFile.innerHTML = `
-                    <div class="container file">
-                        <div class="row p-3 file-main-header">
-                            <div class="col-3 d-flex justify-content-start lgu-second-modal-header"><img class="img-fluid" src="/images/ntc-logo.png"></div>
-                            <div class="col px-0 lgu-second-modal-header">
-                                <p>NATIONAL TEACHER'S COLLEGE</p>
-                                <p>OVERALL GRADE 1 SUPPLY</p>
-                                <p>${modalContainerTitle.toUpperCase()}</p>
-                            </div>
-                            <div class="col-3 d-flex justify-content-end lgu-second-modal-header"><img class="img-fluid" src="images/manila-seal-logo.png"></div>
-                        </div>
-                        <div class="row px-3 file-date-container">
-                            <div class="col d-flex file-date-line">
-                                <strong>DATE:</strong> <p>June 09, 2025</p></div>
-                            </div>
-                        <div class="row px-3 file-location-container">
-                            <div class="col d-flex file-location-line">
-                                <strong>LOCATION:</strong><p>629 J. NEPUOMUCENO STREET, QUIAPO, MANILA, PHILIPPINES</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col py-3 d-flex justify-content-center modal-content-title">${modalContainerTitle.toUpperCase()}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;" scope="col">Size</th>
-                                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;" scope="col">${product1}</th>
-                                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;" scope="col">${product2}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="student-table-body">
-                                        <tr>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Extra Small (XL)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.extraSmall} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].size.extraSmall} PCS</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Small (S)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.small} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].size.small} PCS</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Medium (M)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.medium} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].size.medium} PCS</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Large (L)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.large} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].size.large} PCS</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Extra Large (XL)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.extraLarge} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].size.extraLarge} PCS</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Double Extra Large (XXL)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.doubleXl} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[1].size.doubleXl} PCS</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col py-3 d-flex justify-content-center modal-content-title">OVERALL TOTAL</div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <tr>
-                                                <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;" scope="col">Total</th>
-                                                <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;" scope="col">${product1}</th>
-                                                <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;" scope="col">${product2}</th>
-                                            </tr>
-                                    </thead>
-                                    <tbody class="student-table-body">
-                                        <tr>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${boysOverallTotal + girlsOverallTotal}</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${boysOverallTotal} PCS</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${girlsOverallTotal} PCS</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>    
-                `;
+
+                const studentTotal = sizeTotalComputation(sizeTotals);
+                overallLayout(modalContainerTitle);
+                dataInsertionLayout(product, {data: {studentTotal: studentTotal, sizeTotals: sizeTotals, productHeader: {product1: product1, product2: product2}}});
             } 
 
             if(secondModalModalBtn.value == 'per-section') {
@@ -286,65 +183,12 @@ function lguFirstModal(gradeLevel, product, data) {
                         fetch(`request/section/${gradeLevel}/${data[i].section}`)
                         .then(response => response.json())
                         .then(data => {
-                            let hasBoysHeader = false;
 
-                            for(let i = 0; i < data.boys.length; i++) {
-                                
-                                const tableBody = document.querySelector(`.${data.boys[i].section}-student-table-body`);
-                                
-                                if(!hasBoysHeader) {
-                                    let boysHeader = document.createElement('tr');
-                                    boysHeader.innerHTML = `
-                                        <td style="text-align: center; font-size: 12px;"></td>
-                                        <td style="text-align: center; font-size: 12px; color: red;">Boys</td>
-                                        <td style="text-align: center; font-size: 12px;"></td>
-                                    `;
+                            fetchStudentData(data.boys);
 
-                                    tableBody.appendChild(boysHeader);
-                                    hasBoysHeader = true;
-                                }
+                            fetchStudentData(data.girls);
 
-                                boysCount++;
-                                const row = document.createElement('tr');
-                                row.innerHTML = `
-                                    <td style="text-align: center; font-size: 12px;">${boysCount}</td>
-                                    <td style="text-align: center; font-size: 12px;">${data.boys[i].first_name} ${data.boys[i].last_name}</td>
-                                    <td style="text-align: center; font-size: 12px;">${data.boys[i].slacks_skirt_size}</td>
-                                `;
-                                
-                                tableBody.appendChild(row);
-                            }
-
-                            let hasGirlsHeader = false;
-
-                            for(let i = 0; i < data.girls.length; i++) {
-                                
-                                const tableBody = document.querySelector(`.${data.girls[i].section}-student-table-body`);    
-                                
-                                if(!hasGirlsHeader) {
-                                    let girlsHeader = document.createElement('tr');
-                                    girlsHeader.innerHTML = `
-                                        <td style="text-align: center; font-size: 12px;"></td>
-                                        <td style="text-align: center; font-size: 12px; color: red;">Girls</td>
-                                        <td style="text-align: center; font-size: 12px;"></td>
-                                    `;
-
-                                    tableBody.appendChild(girlsHeader);
-                                    hasGirlsHeader = true;
-                                }
-
-                                girlsCount++;
-                                const row = document.createElement('tr');
-                                row.innerHTML = `
-                                    <td style="text-align: center; font-size: 12px;">${girlsCount}</td>
-                                    <td style="text-align: center; font-size: 12px;">${data.girls[i].first_name} ${data.girls[i].last_name}</td>
-                                    <td style="text-align: center; font-size: 12px;">${data.girls[i].slacks_skirt_size}</td>
-                                `;
-                                
-                                tableBody.appendChild(row);
-                                
-                            }
-                            document.querySelector(`.${data.girls.girls[i].section}-total-student`).innerHTML = `Total Students: ${boysCount + girlsCount} Students`;
+                            // document.querySelector(`.${data.girls.girls[i].section}-total-student`).innerHTML = `Total Students: ${boysCount + girlsCount} Students`;
                         });
                     } 
                 });
@@ -357,7 +201,6 @@ function lguFirstModal(gradeLevel, product, data) {
         (product == 't_shirt_size') ? modalContainerTitle = 'T-Shirt' : modalContainerTitle = 'Pants';
         (product == 't_shirt_size') ? productHeader = 'T-Shirt' : productHeader = 'Pants';
 
-        console.log(productHeader);
         data.forEach((value) => {
             if(value.gender == 'Male') {
                 boysCount += parseInt(value.total);
@@ -380,95 +223,12 @@ function lguFirstModal(gradeLevel, product, data) {
 
         secondModalModalBtn.addEventListener('change', () => {
 
-            const containerFile = document.querySelector('.per-section-info');
-            containerFile.innerHTML = '';
-
             if(secondModalModalBtn.value == 'overall') {
-                containerFile.innerHTML = `
-                    <div class="container file">
-                        <div class="row p-3 file-main-header">
-                            <div class="col-3 d-flex justify-content-start lgu-second-modal-header"><img class="img-fluid" src="/images/ntc-logo.png"></div>
-                            <div class="col px-0 lgu-second-modal-header">
-                                <p>NATIONAL TEACHER'S COLLEGE</p>
-                                <p>OVERALL GRADE 1 SUPPLY</p>
-                                <p>${modalContainerTitle.toUpperCase()}</p>
-                            </div>
-                            <div class="col-3 d-flex justify-content-end lgu-second-modal-header"><img class="img-fluid" src="images/manila-seal-logo.png"></div>
-                        </div>
-                        <div class="row px-3 file-date-container">
-                            <div class="col d-flex file-date-line">
-                                <strong>DATE:</strong> <p>June 09, 2025</p></div>
-                            </div>
-                        <div class="row px-3 file-location-container">
-                            <div class="col d-flex file-location-line">
-                                <strong>LOCATION:</strong><p>629 J. NEPUOMUCENO STREET, QUIAPO, MANILA, PHILIPPINES</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col py-3 d-flex justify-content-center modal-content-title">${modalContainerTitle.toUpperCase()}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;" scope="col">Size</th>
-                                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;" scope="col">${modalContainerTitle.toUpperCase()}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="student-table-body">
-                                        <tr>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Extra Small (XL)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.extraSmall + sizeTotals[1].size.extraSmall} PCS</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Small (S)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.small + sizeTotals[1].size.small} PCS</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Medium (M)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.medium + sizeTotals[1].size.medium} PCS</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Large (L)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.large + sizeTotals[1].size.large} PCS</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Extra Large (XL)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.extraLarge + sizeTotals[1].size.extraLarge} PCS</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">Double Extra Large (XXL)</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals[0].size.doubleXl + sizeTotals[1].size.doubleXl} PCS</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col py-3 d-flex justify-content-center modal-content-title">OVERALL TOTAL</div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <tr>
-                                                <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;" scope="col">Total</th>
-                                                <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;" scope="col">${modalContainerTitle.toUpperCase()}</th></th>
-                                            </tr>
-                                    </thead>
-                                    <tbody class="student-table-body">
-                                        <tr>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals.extraSmall + sizeTotals.small + sizeTotals.medium + sizeTotals.large + sizeTotals.extraLarge + sizeTotals.doubleXl}</td>
-                                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${sizeTotals.extraSmall + sizeTotals.small + sizeTotals.medium + sizeTotals.large + sizeTotals.extraLarge + sizeTotals.doubleXl} PCS</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>    
-                `;
+
+                const studentTotal = sizeTotalComputation(sizeTotals);
+
+                overallLayout(modalContainerTitle);
+                dataInsertionLayout(product, {data: {studentTotal: studentTotal, sizeTotals: sizeTotals, productHeader: productHeader}});
             }
 
             if(secondModalModalBtn.value == 'per-section') {
@@ -623,27 +383,7 @@ function lguFirstModal(gradeLevel, product, data) {
             if(secondModalModalBtn.value == 'overall') {
 
                 overallLayout(modalContainerTitle);
-
-                document.querySelector('.overall-layout-table').innerHTML = `
-                    <thead>
-                        ${shoe_size_table_header()}
-                    </thead>
-                    <tbody class="student-table-body overall-layout-table-body">
-                        ${shoe_size_table_body(data)}
-                    </tbody>
-                `;
-
-                document.querySelector('.overall-table-total').innerHTML = `
-                    <thead>
-                        ${shoe_size_table_header()}
-                    </thead>
-                    <tbody class="student-table-body">
-                        <tr>
-                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${totalSize}</td>
-                            <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;">${totalShoes} PCS</td>
-                        </tr>
-                    </tbody>
-                `;
+                dataInsertionLayout(product, {data: {shoeSize: data, totalSize: totalSize, totalShoes: totalShoes}});
             }
         });
     }
@@ -682,17 +422,7 @@ function lguFirstModal(gradeLevel, product, data) {
             if(secondModalModalBtn.value == 'overall') {
 
                 overallLayout(modalContainerTitle);
-                
-                document.querySelector('.overall-layout-table').innerHTML = `
-                    <thead>
-                        ${school_supplies_table_header()}
-                    </thead>
-                    <tbody class="student-table-body overall-layout-table-body">
-                        ${school_supplies_table_body({male: maleTotal, female: femaleTotal})}
-                    </tbody>
-                `;
-                document.querySelector('.overall-header-container').remove();
-                document.querySelector('.overall-table-total-container').remove();
+                dataInsertionLayout(product, {data: {male: maleTotal, female: femaleTotal}});
             }
         });
     }
@@ -837,5 +567,16 @@ function overallLayout(modalContainerTitle) {
             </div>
         </div>    
     `;
+}
+
+function sizeTotalComputation(sizeTotal) {
+    let boysOverallTotal = 0;
+    let girlsOverallTotal = 0;
+    sizeTotal.forEach((value) => {
+        if(value.gender == 'Male') boysOverallTotal = Object.values(value.size).reduce((acc, curr) => acc + curr, 0);
+        if(value.gender == 'Female') girlsOverallTotal = Object.values(value.size).reduce((acc, curr) => acc + curr, 0);
+    });
+
+    return {boysOverallTotal, girlsOverallTotal};
 }
 
