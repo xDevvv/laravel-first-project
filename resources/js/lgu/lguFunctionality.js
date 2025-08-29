@@ -3,7 +3,7 @@ import { slacksSkirt_poloBlouse_table_header, slacksSkirt_poloBlouse_table_body,
          shoe_size_table_header, shoe_size_table_body, 
          school_supplies_table_header, school_supplies_table_body,
          dataInsertionLayout,
-         fetchStudentData
+         fetchStudentData, fetchPerSectionLayout
         } from "./layout";
 
 
@@ -147,48 +147,46 @@ function lguFirstModal(gradeLevel, product, data) {
                 .then(response => response.json())
                 .then(data => {
                     for(let i = 0; i < data.length; i++) {
-                        containerFile.insertAdjacentHTML('beforeend', `
-                            <div class="container file my-3">
-                                <div class="row p-3 file-main-header">
-                                    <div class="col d-flex justify-content-start lgu-second-modal-header" style="font-size: 14px; font-weight: bold;">Class: Grade 1 - ${data[i].section}</div>
-                                    <div class="col d-flex justify-content-end lgu-second-modal-header" style="font-size: 14px; font-weight: bold;">Adviser ID: ${data[i].teacher_id}</div>
-                                </div>
-                                <div class="row px-3">
-                                    <div class="col">
-                                        <table class="table table-bordered border-black">
-                                            <thead>
-                                                <tr>
-                                                    <th style="text-align: center; font-size: 12px;" scope="col"></th>
-                                                    <th style="text-align: center; font-size: 12px;" scope="col">Student Name</th>
-                                                    <th style="text-align: center; font-size: 12px;" scope="col">${product1} / ${product2}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="${data[i].section}-student-table-body">
+                        fetchPerSectionLayout(containerFile, {data: data[i], productHeader: {product1: product1, product2: product2}});
+                        // containerFile.insertAdjacentHTML('beforeend', `
+                        //     <div class="container file my-3">
+                        //         <div class="row p-3 file-main-header">
+                        //             <div class="col d-flex justify-content-start lgu-second-modal-header" style="font-size: 14px; font-weight: bold;">Class: Grade 1 - ${data[i].section}</div>
+                        //             <div class="col d-flex justify-content-end lgu-second-modal-header" style="font-size: 14px; font-weight: bold;">Adviser ID: ${data[i].teacher_id}</div>
+                        //         </div>
+                        //         <div class="row px-3">
+                        //             <div class="col">
+                        //                 <table class="table table-bordered border-black">
+                        //                     <thead>
+                        //                         <tr>
+                        //                             <th style="text-align: center; font-size: 12px;" scope="col"></th>
+                        //                             <th style="text-align: center; font-size: 12px;" scope="col">Student Name</th>
+                        //                             <th style="text-align: center; font-size: 12px;" scope="col">${product1} / ${product2}</th>
+                        //                         </tr>
+                        //                     </thead>
+                        //                     <tbody class="${data[i].section}-student-table-body">
                                                 
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="row px-3 pb-4">
-                                    <div class="col" style="font-size: 14px;">
-                                        <strong class="${data[i].section}-total-student"></strong>
-                                    </div>
-                                </div>
-                            </div>    
-                        `);
+                        //                     </tbody>
+                        //                 </table>
+                        //             </div>
+                        //         </div>
+                        //         <div class="row px-3 pb-4">
+                        //             <div class="col" style="font-size: 14px;">
+                        //                 <strong class="${data[i].section}-total-student"></strong>
+                        //             </div>
+                        //         </div>
+                        //     </div>    
+                        // `);
                         
-                        let boysCount = 0;
-                        let girlsCount = 0;
+                        // let boysCount = 0;
+                        // let girlsCount = 0;
 
                         fetch(`request/section/${gradeLevel}/${data[i].section}`)
                         .then(response => response.json())
                         .then(data => {
 
                             fetchStudentData(data.boys);
-
                             fetchStudentData(data.girls);
-
-                            // document.querySelector(`.${data.girls.girls[i].section}-total-student`).innerHTML = `Total Students: ${boysCount + girlsCount} Students`;
                         });
                     } 
                 });
