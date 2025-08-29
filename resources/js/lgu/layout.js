@@ -264,3 +264,35 @@ export function fetchStudentData(data) {
         tableBody.appendChild(row);
     }
 }
+
+export function fetchPerSectionLayout(container, {data, productHeader}) {
+    container.insertAdjacentHTML('beforeend', `
+        <div class="container file my-3">
+            <div class="row p-3 file-main-header">
+                <div class="col d-flex justify-content-start lgu-second-modal-header" style="font-size: 14px; font-weight: bold;">Class: Grade 1 - ${data.section}</div>
+                <div class="col d-flex justify-content-end lgu-second-modal-header" style="font-size: 14px; font-weight: bold;">Adviser ID: ${data.teacher_id}</div>
+            </div>
+            <div class="row px-3">
+                <div class="col">
+                    <table class="table table-bordered border-black">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; font-size: 12px;" scope="col"></th>
+                                <th style="text-align: center; font-size: 12px;" scope="col">Student Name</th>
+                                <th style="text-align: center; font-size: 12px;" scope="col">${productHeader.product1} / ${productHeader.product2}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="${data.section}-student-table-body">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row px-3 pb-4">
+                <div class="col" style="font-size: 14px;">
+                    <strong class="${data.section}-total-student"></strong>
+                </div>
+            </div>
+        </div>
+    `);
+}
