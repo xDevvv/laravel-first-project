@@ -142,51 +142,20 @@ function lguFirstModal(gradeLevel, product, data) {
             } 
 
             if(secondModalModalBtn.value == 'per-section') {
-                console.log('none');
+
                 fetch(`request/student/per_section/${gradeLevel}`)
                 .then(response => response.json())
                 .then(data => {
                     for(let i = 0; i < data.length; i++) {
+
                         fetchPerSectionLayout(containerFile, {data: data[i], productHeader: {product1: product1, product2: product2}});
-                        // containerFile.insertAdjacentHTML('beforeend', `
-                        //     <div class="container file my-3">
-                        //         <div class="row p-3 file-main-header">
-                        //             <div class="col d-flex justify-content-start lgu-second-modal-header" style="font-size: 14px; font-weight: bold;">Class: Grade 1 - ${data[i].section}</div>
-                        //             <div class="col d-flex justify-content-end lgu-second-modal-header" style="font-size: 14px; font-weight: bold;">Adviser ID: ${data[i].teacher_id}</div>
-                        //         </div>
-                        //         <div class="row px-3">
-                        //             <div class="col">
-                        //                 <table class="table table-bordered border-black">
-                        //                     <thead>
-                        //                         <tr>
-                        //                             <th style="text-align: center; font-size: 12px;" scope="col"></th>
-                        //                             <th style="text-align: center; font-size: 12px;" scope="col">Student Name</th>
-                        //                             <th style="text-align: center; font-size: 12px;" scope="col">${product1} / ${product2}</th>
-                        //                         </tr>
-                        //                     </thead>
-                        //                     <tbody class="${data[i].section}-student-table-body">
-                                                
-                        //                     </tbody>
-                        //                 </table>
-                        //             </div>
-                        //         </div>
-                        //         <div class="row px-3 pb-4">
-                        //             <div class="col" style="font-size: 14px;">
-                        //                 <strong class="${data[i].section}-total-student"></strong>
-                        //             </div>
-                        //         </div>
-                        //     </div>    
-                        // `);
-                        
-                        // let boysCount = 0;
-                        // let girlsCount = 0;
 
                         fetch(`request/section/${gradeLevel}/${data[i].section}`)
                         .then(response => response.json())
                         .then(data => {
-
-                            fetchStudentData(data.boys);
-                            fetchStudentData(data.girls);
+                            
+                            fetchStudentData(data.boys, product);
+                            fetchStudentData(data.girls, product);
                         });
                     } 
                 });
@@ -224,131 +193,30 @@ function lguFirstModal(gradeLevel, product, data) {
             if(secondModalModalBtn.value == 'overall') {
 
                 const studentTotal = sizeTotalComputation(sizeTotals);
-
+                
                 overallLayout(modalContainerTitle);
                 dataInsertionLayout(product, {data: {studentTotal: studentTotal, sizeTotals: sizeTotals, productHeader: productHeader}});
             }
 
             if(secondModalModalBtn.value == 'per-section') {
 
+                const containerFile = document.querySelector('.per-section-info');
+                containerFile.innerHTML = '';
+
                 fetch(`request/student/per_section/${gradeLevel}`)
                 .then(response => response.json())
                 .then(data => {
 
                     for(let i = 0; i < data.length; i++) {
-                        containerFile.insertAdjacentHTML('beforeend', `
-                            <div class="container file my-3">
-                                <div class="row p-3 file-main-header">
-                                    <div class="col d-flex justify-content-start lgu-second-modal-header" style="font-size: 14px; font-weight: bold;">Class: Grade 1 - ${data[i].section}</div>
-                                    <div class="col d-flex justify-content-end lgu-second-modal-header" style="font-size: 14px; font-weight: bold;">Adviser ID: ${data[i].teacher_id}</div>
-                                </div>
-                                <div class="row px-3">
-                                    <div class="col">
-                                        <table class="table table-bordered border-black">
-                                            <thead>
-                                                <tr>
-                                                    <th style="text-align: center; font-size: 12px;" scope="col"></th>
-                                                    <th style="text-align: center; font-size: 12px;" scope="col">Student Name</th>
-                                                    <th style="text-align: center; font-size: 12px;" scope="col">${productHeader}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="${data[i].section}-student-table-body">
-                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="row px-3 pb-4">
-                                    <div class="col" style="font-size: 14px;">
-                                        <strong class="${data[i].section}-total-student"></strong>
-                                    </div>
-                                </div>
-                            </div>    
-                        `);
-                        
-                        let boysCount = 0;
-                        let girlsCount = 0;
+                        fetchPerSectionLayout(containerFile, {data: data[i], productHeader: productHeader});
 
                         fetch(`request/section/${gradeLevel}/${data[i].section}`)
+
                         .then(response => response.json())
                         .then(data => {
-                            let hasBoysHeader = false;
 
-                            for(let i = 0; i < data.boys.length; i++) {
-                                
-                                const tableBody = document.querySelector(`.${data.boys[i].section}-student-table-body`);
-                                
-                                if(!hasBoysHeader) {
-                                    let boysHeader = document.createElement('tr');
-                                    boysHeader.innerHTML = `
-                                        <td style="text-align: center; font-size: 12px;"></td>
-                                        <td style="text-align: center; font-size: 12px; color: red;">Boys</td>
-                                        <td style="text-align: center; font-size: 12px;"></td>
-                                    `;
-
-                                    tableBody.appendChild(boysHeader);
-                                    hasBoysHeader = true;
-                                }
-
-                                boysCount++;
-                                const row = document.createElement('tr');
-                                if(product == 't_shirt_size') {
-                                    row.innerHTML = `
-                                        <td style="text-align: center; font-size: 12px;">${boysCount}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data.boys[i].first_name} ${data.boys[i].last_name}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data.boys[i].t_shirt_size}</td>
-                                    `;
-                                }
-
-                                if(product == 'pants_size') {
-                                    row.innerHTML = `
-                                        <td style="text-align: center; font-size: 12px;">${boysCount}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data.boys[i].first_name} ${data.boys[i].last_name}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data.boys[i].pants_size}</td>
-                                    `;
-                                }
-                                
-                                tableBody.appendChild(row);
-                            }
-
-                            let hasGirlsHeader = false;
-
-                            for(let i = 0; i < data.girls.length; i++) {
-                                
-                                const tableBody = document.querySelector(`.${data.girls[i].section}-student-table-body`);    
-                                
-                                if(!hasGirlsHeader) {
-                                    let girlsHeader = document.createElement('tr');
-                                    girlsHeader.innerHTML = `
-                                        <td style="text-align: center; font-size: 12px;"></td>
-                                        <td style="text-align: center; font-size: 12px; color: red;">Girls</td>
-                                        <td style="text-align: center; font-size: 12px;"></td>
-                                    `;
-
-                                    tableBody.appendChild(girlsHeader);
-                                    hasGirlsHeader = true;
-                                }
-
-                                girlsCount++;
-                                const row = document.createElement('tr');
-                                if(product == 't_shirt_size') {
-                                    row.innerHTML = `
-                                        <td style="text-align: center; font-size: 12px;">${boysCount}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data.girls[i].first_name} ${data.girls[i].last_name}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data.girls[i].t_shirt_size}</td>
-                                    `;
-                                }
-
-                                if(product == 'pants_size') {
-                                    row.innerHTML = `
-                                        <td style="text-align: center; font-size: 12px;">${boysCount}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data.girls[i].first_name} ${data.girls[i].last_name}</td>
-                                        <td style="text-align: center; font-size: 12px;">${data.girls[i].pants_size}</td>
-                                    `;
-                                }
-                                tableBody.appendChild(row);
-                            }
-                            document.querySelector(`.${data.girls[i].section}-total-student`).innerHTML = `Total Students: ${boysCount + girlsCount} Students`;
+                            fetchStudentData(data.boys, product);
+                            fetchStudentData(data.girls, product);
                         });
                     } 
                 })
@@ -360,6 +228,7 @@ function lguFirstModal(gradeLevel, product, data) {
 
         let totalShoes = 0;
         let totalSize = 0;
+
         modalContainerTitle = 'Shoes';
 
         data.forEach((value) => {
@@ -382,6 +251,30 @@ function lguFirstModal(gradeLevel, product, data) {
 
                 overallLayout(modalContainerTitle);
                 dataInsertionLayout(product, {data: {shoeSize: data, totalSize: totalSize, totalShoes: totalShoes}});
+            }
+
+            if(secondModalModalBtn.value == 'per-section') {
+
+                const containerFile = document.querySelector('.per-section-info');
+                containerFile.innerHTML = '';
+
+                fetch(`request/student/per_section/${gradeLevel}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(modalContainerTitle);
+                    for(let i = 0; i < data.length; i++) {
+                        fetchPerSectionLayout(containerFile, {data: data[i], productHeader: modalContainerTitle});
+
+                        fetch(`request/section/${gradeLevel}/${data[i].section}`)
+
+                        .then(response => response.json())
+                        .then(data => {
+
+                            fetchStudentData(data.boys, product);
+                            fetchStudentData(data.girls, product);
+                        });
+                    } 
+                })
             }
         });
     }
@@ -422,9 +315,36 @@ function lguFirstModal(gradeLevel, product, data) {
                 overallLayout(modalContainerTitle);
                 dataInsertionLayout(product, {data: {male: maleTotal, female: femaleTotal}});
             }
+
+            if(secondModalModalBtn.value == 'per-section') {
+
+                const containerFile = document.querySelector('.per-section-info');
+                containerFile.innerHTML = '';
+
+                fetch(`request/student/per_section/${gradeLevel}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(product);
+                    for(let i = 0; i < data.length; i++) {
+                        fetchPerSectionLayout(containerFile, {data: data[i], productHeader: modalContainerTitle});
+
+                        fetch(`request/section/${gradeLevel}/${data[i].section}`)
+
+                        .then(response => response.json())
+                        .then(data => {
+
+                            fetchStudentData(data.boys, product);
+                            fetchStudentData(data.girls, product);
+                        });
+                    } 
+                })
+            }
         });
     }
 }
+
+
+// Layout
 
 function firstModalInsertion({modalTitle, studentData}) {
 
