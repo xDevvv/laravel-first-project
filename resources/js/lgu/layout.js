@@ -131,7 +131,6 @@ export function school_supplies_table_body(studentData) {
 
 export function dataInsertionLayout(product, {data}) {
     if(product == 'slacks_skirt_size' || product == 'polo_blouse_size') {
-        console.log(data.total);
         document.querySelector('.overall-layout-table').innerHTML = `
             <thead>
                 ${slacksSkirt_poloBlouse_table_header({product1: data.productHeader.product1, product2: data.productHeader.product2})}
@@ -234,18 +233,17 @@ export function dataInsertionLayout(product, {data}) {
     }
 }
 
-export function fetchStudentData(data) {
+export function fetchStudentData(data, product) {    
     let hasHeader = false;
     let studentCount = 0;
     for(let i = 0; i < data.length; i++) {
         
         const tableBody = document.querySelector(`.${data[i].section}-student-table-body`);
-        console.log(tableBody);
         if(!hasHeader) {
             let dataHeader = document.createElement('tr');
             dataHeader.innerHTML = `
                 <td style="text-align: center; font-size: 12px;"></td>
-                <td style="text-align: center; font-size: 12px; color: red;">Boys</td>
+                <td style="text-align: center; font-size: 12px; color: red;">${data[i].gender == 'Male' ? 'Boys' : 'Girls'}</td>
                 <td style="text-align: center; font-size: 12px;"></td>
             `;
 
@@ -258,14 +256,23 @@ export function fetchStudentData(data) {
         row.innerHTML = `
             <td style="text-align: center; font-size: 12px;">${studentCount}</td>
             <td style="text-align: center; font-size: 12px;">${data[i].first_name} ${data[i].last_name}</td>
-            <td style="text-align: center; font-size: 12px;">${data[i].slacks_skirt_size}</td>
+            
         `;
+        console.log(product);
+        if (product == 'slacks_skirt_size' || product == 'Skirt') row.insertAdjacentHTML('beforeend', `<td style="text-align: center; font-size: 12px;">${data[i].slacks_skirt_size}</td>`);
+        if (product == 'polo_blouse_size' || product == 'Skirt') row.insertAdjacentHTML('beforeend', `<td style="text-align: center; font-size: 12px;">${data[i].polo_blouse_size}</td>`);
+        if (product == 'pants_size') row.insertAdjacentHTML('beforeend', `<td style="text-align: center; font-size: 12px;">${data[i].pants_size}</td>`);
+        if(product == 't_shirt_size') row.insertAdjacentHTML('beforeend', `<td style="text-align: center; font-size: 12px;">${data[i].t_shirt_size}</td>`);
+        if(product == 'shoe_size') row.insertAdjacentHTML('beforeend', `<td style="text-align: center; font-size: 12px;">${data[i].shoe_size}</td>`);
+        if(product == 'school_supplies') row.insertAdjacentHTML('beforeend', `<td style="text-align: center; font-size: 12px;">${data[i].school_supplies}</td>`);
         
         tableBody.appendChild(row);
     }
 }
 
 export function fetchPerSectionLayout(container, {data, productHeader}) {
+
+    let hasTwoProductHeader = (productHeader.product1 && productHeader.product2) ? true : false;
     container.insertAdjacentHTML('beforeend', `
         <div class="container file my-3">
             <div class="row p-3 file-main-header">
@@ -279,7 +286,7 @@ export function fetchPerSectionLayout(container, {data, productHeader}) {
                             <tr>
                                 <th style="text-align: center; font-size: 12px;" scope="col"></th>
                                 <th style="text-align: center; font-size: 12px;" scope="col">Student Name</th>
-                                <th style="text-align: center; font-size: 12px;" scope="col">${productHeader.product1} / ${productHeader.product2}</th>
+                                <th style="text-align: center; font-size: 12px;" scope="col">${(hasTwoProductHeader) ? `${productHeader.product1} / ${productHeader.product2}` : `${productHeader}`}</th>
                             </tr>
                         </thead>
                         <tbody class="${data.section}-student-table-body">
