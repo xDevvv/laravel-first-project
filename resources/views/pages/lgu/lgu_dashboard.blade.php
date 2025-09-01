@@ -15,11 +15,11 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal fade" id="exampleModalToggle" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-dialog modal-xl" id="lgu-modal-1-container">
         </div>
     </div>
-    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal fade" id="exampleModalToggle2" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-xl" id="lgu-modal-2-container">
             <div class="modal-content">
                 <div class="modal-body contents">
@@ -51,7 +51,7 @@
                                 <div class="container">
                                     <div class="row gap-3">
                                         <div class="col back-btn">
-                                            <button class="compute-btn" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back</button>
+                                            <button class="compute-btn back-modal" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back</button>
                                         </div>
                                         <div class="print-btn col d-flex justify-content-end">
                                             <button class="compute-btn" id="lgu-print">Print</button>
@@ -111,7 +111,7 @@
                         <button type="button" class="lgu-product-btn product-check-btn" id="school_supplies">School Supplies</button>
                     </div>
                     <div class="col d-flex justify-content-center my-4">
-                        <button type="button" class="lgu-product-btn product-check-btn" id="t_shirt_size">P.E Shirt</button>
+                        <button type="button" class="lgu-product-btn product-check-btn" id="t_shirt_size">PwE Shirt</button>
                     </div>
                     <div class="col d-flex justify-content-center my-4">
                         <button type="button" class="lgu-product-btn product-check-btn" id="pants_size">P.E Pants</button>
@@ -134,6 +134,8 @@
             </div>
         </div>
     </div>
+
+    
 @endsection
 
 @section('footer')
