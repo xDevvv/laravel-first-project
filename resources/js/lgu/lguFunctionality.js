@@ -3,7 +3,8 @@ import { slacksSkirt_poloBlouse_table_header, slacksSkirt_poloBlouse_table_body,
          shoe_size_table_header, shoe_size_table_body, 
          school_supplies_table_header, school_supplies_table_body,
          dataInsertionLayout,
-         fetchStudentData, fetchPerSectionLayout
+         fetchStudentData, fetchPerSectionLayout, firstModalInsertion,
+         overallLayout
         } from "./layout";
 
 
@@ -59,12 +60,16 @@ computeBtn.addEventListener('click' , async () => {
     lguFirstModal(gradeSelected, productSelected, data);
 })
 
+const backBtn = document.querySelector('.back-btn');
+backBtn.addEventListener('click', () => {
+    document.addEventListener('hidden.bs.modal', function () {
+        document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+        document.body.classList.remove('modal-open');
+    });
+})
 
 
-if(document.getElementById('#exampleModalToggle2') != undefined) {
-    const modal = new bootstrap.Modal(document.getElementById('#exampleModalToggle2'));
-    modal.show();
-}
+
 
 document.querySelector('#lgu-print').addEventListener('click', () => {
     const printContents = document.querySelector('.file').innerHTML;
@@ -344,54 +349,7 @@ function lguFirstModal(gradeLevel, product, data) {
 }
 
 
-// Layout
 
-function firstModalInsertion({modalTitle, studentData}) {
-
-    const firstModal = document.querySelector('#lgu-modal-1-container');
-
-    firstModal.innerHTML = `
-        <div class="modal-content">
-            <div class="modal-body contents">
-                <div class="container-fluid d-flex justify-content-end">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="container-fluid modal-container-title">${modalTitle}</div>
-                <div class="container-fluid student-information-supplies modal-student-information-container mb-3">
-                    <h3>Grade ${studentData.gradeLevel}</h3>
-                    <div class="row mx-2 mx-sm-5">
-                        <div class="col">
-                            <table class="table table-bordered total-product-table">
-                                
-                            </table>
-                        </div>
-                        <div class="overall-total-container col">
-                            <div class="outer-container">
-                                <div class="inner-container">
-                                    <div class="overall-grade-header">Grade ${studentData.gradeLevel}</div>
-                                    <div class="d-flex flex-column">
-                                        <div class="boys-total">Boys - ${studentData.boysCount}</div>
-                                        <div class="mb-2 girls-total">Girls - ${studentData.girlsCount}</div>
-                                        <div class="line-separation"></div>
-                                        <div class="overall-student">Total = ${studentData.boysCount + studentData.girlsCount} Students</div>
-                                        <div class="total-line"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col d-flex justify-content-end">
-                            <button class="compute-btn" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Next</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-}
 
 function threeColumnTableLayout(product, {studentData}, {productHeader}) {
     if(product == 'slacks_skirt_size' || product == 'polo_blouse_size') {
@@ -441,51 +399,7 @@ function twoColumnTableLayout(product, {studentData}, {productHeader}) {
     } 
 }
 
-function overallLayout(modalContainerTitle) {
-    const containerFile = document.querySelector('.per-section-info');
-    containerFile.innerHTML = `
-        <div class="container file">
-            <div class="row p-3 file-main-header">
-                <div class="col-3 d-flex justify-content-start lgu-second-modal-header"><img class="img-fluid" src="/images/ntc-logo.png"></div>
-                <div class="col px-0 lgu-second-modal-header">
-                    <p>NATIONAL TEACHER'S COLLEGE</p>
-                    <p>OVERALL GRADE 1 SUPPLY</p>
-                    <p>${modalContainerTitle.toUpperCase()}</p>
-                </div>
-                <div class="col-3 d-flex justify-content-end lgu-second-modal-header"><img class="img-fluid" src="images/manila-seal-logo.png"></div>
-            </div>
-            <div class="row px-3 file-date-container">
-                <div class="col d-flex file-date-line">
-                    <strong>DATE:</strong> <p>June 09, 2025</p></div>
-                </div>
-            <div class="row px-3 file-location-container">
-                <div class="col d-flex file-location-line">
-                    <strong>LOCATION:</strong><p>629 J. NEPUOMUCENO STREET, QUIAPO, MANILA, PHILIPPINES</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col py-3 d-flex justify-content-center modal-content-title">${modalContainerTitle.toUpperCase()}</div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <table class="table overall-layout-table">
-                        
-                    </table>
-                </div>
-            </div>
-            <div class="row overall-header-container">
-                <div class="col py-3 d-flex justify-content-center modal-content-title">OVERALL TOTAL</div>
-            </div>
-            <div class="row overall-table-body-container">
-                <div class="col">
-                    <table class="table overall-table-total">
-                        
-                    </table>
-                </div>
-            </div>
-        </div>    
-    `;
-}
+
 
 function sizeTotalComputation(sizeTotal) {
     let boysOverallTotal = 0;
