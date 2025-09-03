@@ -1206,6 +1206,16 @@ input:not(:placeholder-shown) + label {
     margin-bottom: 15px;
 }
 
+.per-section-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#loader {
+    display: none;
+}
+
 
 
 @media (max-width: 1295px) {
@@ -1595,6 +1605,9 @@ input:not(:placeholder-shown) + label {
 
 @media print {
 
+    body {background: none !important; /* Remove background color */}
+
+    * {background: none !important; /* Remove background images/colors */}
     .menu-icon-container,
     .search-input-container,
     .search-icon-container,
@@ -1632,5 +1645,4 @@ input:not(:placeholder-shown) + label {
     .file {
         page-break-after: always;
     }
-
 }
