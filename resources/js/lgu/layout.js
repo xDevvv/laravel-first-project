@@ -271,7 +271,7 @@ export function fetchStudentData(data, product) {
 }
 
 export function fetchPerSectionLayout(container, {data, productHeader}) {
-
+    console.log(data);
     let hasTwoProductHeader = (productHeader.product1 && productHeader.product2) ? true : false;
     container.insertAdjacentHTML('beforeend', `
         <div class="container file my-3">
@@ -352,8 +352,8 @@ export function firstModalInsertion({modalTitle, studentData}) {
 }
 
 export function overallLayout(modalContainerTitle) {
-    const containerFile = document.querySelector('.per-section-info');
-    containerFile.innerHTML = `
+    const containerData = document.querySelector('.container-data');
+    containerData.innerHTML = `
         <div class="container file">
             <div class="row p-3 file-main-header">
                 <div class="col-3 d-flex justify-content-start lgu-second-modal-header"><img class="img-fluid" src="/images/ntc-logo.png"></div>
