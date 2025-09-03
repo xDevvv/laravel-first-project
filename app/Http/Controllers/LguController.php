@@ -45,9 +45,9 @@ class LguController extends Controller
     public function overallStudentPerSection($gradeLevel) {
 
         $result = DB::table('students')
-            ->selectRaw('section, COUNT(*) as total')
+            ->selectRaw('section, teacher_id, COUNT(*) as total')
             ->where('grade_level', $gradeLevel)
-            ->groupBy('section')
+            ->groupBy('section', 'teacher_id')
             ->get();
 
         if (empty($result)) return response()->json(['message' => 'No Data Found ']);
