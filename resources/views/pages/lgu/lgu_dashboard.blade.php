@@ -29,7 +29,11 @@
                     <div class="container-fluid student-information-supplies modal-student-information-container mb-3">
                         <div class="row">
                             <div class="col py-3 per-section-info">
-                                <div class="container file place-holder">
+                                <div class="spinner-border text-primary" role="status" id="loader">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <div class="container-data" id="content"></div>
+                                <div class="container file place-holder choose-file-placeholder">
                                     <div class="row pt-3 d-flex justify-content-center align-items-center place-holder">
                                         <h6 style="color: gray;">Choose File...</h6>
                                     </div>
@@ -111,7 +115,7 @@
                         <button type="button" class="lgu-product-btn product-check-btn" id="school_supplies">School Supplies</button>
                     </div>
                     <div class="col d-flex justify-content-center my-4">
-                        <button type="button" class="lgu-product-btn product-check-btn" id="t_shirt_size">PwE Shirt</button>
+                        <button type="button" class="lgu-product-btn product-check-btn" id="t_shirt_size">P.E Shirt</button>
                     </div>
                     <div class="col d-flex justify-content-center my-4">
                         <button type="button" class="lgu-product-btn product-check-btn" id="pants_size">P.E Pants</button>
