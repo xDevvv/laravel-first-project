@@ -7,10 +7,11 @@ import { slacksSkirt_poloBlouse_table_header, slacksSkirt_poloBlouse_table_body,
          overallLayout
         } from "./layout";
 
-
+import { showLoadingSpinner, hideLoadingSpinner } from "../authentication";
 
 let gradeSelected;
 let productSelected;
+
 
 const gradeBtns = document.querySelectorAll('.grade-check-btn');
 const productBtns = document.querySelectorAll('.product-check-btn');
@@ -134,26 +135,34 @@ function lguFirstModal(gradeLevel, product, data) {
 
         threeColumnTableLayout(product, {studentData: sizeTotals}, {productHeader: {product1: product1, product2: product2}});
 
+        const containerFile = document.querySelector('.choose-file-placeholder');
+
         secondModalModalBtn.addEventListener('change', () => {
 
-            const containerFile = document.querySelector('.per-section-info');
-            containerFile.innerHTML = '';
+            if(containerFile) containerFile.remove();
+
+            const containerData = document.querySelector('.container-data');
+            
+            containerData.innerHTML = '';
+            
+            showLoadingSpinner();
 
             if(secondModalModalBtn.value == 'overall') {
-
+                
                 const studentTotal = sizeTotalComputation(sizeTotals);
                 overallLayout(modalContainerTitle);
                 dataInsertionLayout(product, {data: {studentTotal: studentTotal, sizeTotals: sizeTotals, productHeader: {product1: product1, product2: product2}}});
+                
             } 
 
             if(secondModalModalBtn.value == 'per-section') {
-
+                
                 fetch(`request/student/per_section/${gradeLevel}`)
                 .then(response => response.json())
                 .then(data => {
                     for(let i = 0; i < data.length; i++) {
 
-                        fetchPerSectionLayout(containerFile, {data: data[i], productHeader: {product1: product1, product2: product2}});
+                        fetchPerSectionLayout(containerData, {data: data[i], productHeader: {product1: product1, product2: product2}});
 
                         fetch(`request/section/${gradeLevel}/${data[i].section}`)
                         .then(response => response.json())
@@ -164,7 +173,10 @@ function lguFirstModal(gradeLevel, product, data) {
                         });
                     } 
                 });
+                
             }
+            console.log(containerData);
+            hideLoadingSpinner();
         });
     }
 
