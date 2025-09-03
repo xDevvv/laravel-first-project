@@ -11,4 +11,14 @@ export function removeSuccessNofif(element) {
 }
 
 
+export function showLoadingSpinner() {
+    console.log('show')
+    document.querySelector('#loader').style.display = "block";
+    document.querySelector('#content').style.display = "none";
+}
 
+export function hideLoadingSpinner() {
+    document.querySelector('#loader').style.display = "none";
+    document.querySelector('#content').style.display = "block";
+    console.log('hide');
+}
