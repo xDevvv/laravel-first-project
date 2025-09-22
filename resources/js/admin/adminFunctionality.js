@@ -348,3 +348,25 @@ function gradeLevelSelection() {
         }
     });
 }
+
+function deleteUser(userId) {
+
+    const checkboxes = document.querySelectorAll(".userCheckbox:checked");
+
+    if (checkboxes.length === 0) {
+        alert("Please select at least one user to delete.");
+        return;
+    }
+
+    // Ask for confirmation
+    const confirmDelete = confirm(`Are you sure you want to delete ${checkboxes.length} user(s)?`);
+    
+    if (!confirmDelete) return;
+
+    checkboxes.forEach(checkbox => {
+        console.log(checkboxes);
+    });
+
+    alert(checkboxes);
+    
+}
