@@ -553,6 +553,10 @@ input:not(:placeholder-shown) + label {
 
 // Teacher Dashboard
 
+.delete-btn:hover {
+    opacity: 0.6;
+}
+
 .teacher-name-container {
     display: flex;
     justify-content: center;
@@ -941,6 +945,11 @@ input:not(:placeholder-shown) + label {
 
 .dropdown-menu {
     margin-top: 50px;
+}
+
+.student-table-container {
+    display: flex;
+    justify-content: center;
 }
 
 // Admin Request (User Detail Modal)
