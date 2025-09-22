@@ -33,14 +33,13 @@
                             <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);" scope="col">P.E Pants Size</th>
                             <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);" scope="col">Polo / Blouse Size</th>
                             <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);" scope="col">Slacks / Skirts Size</th>
-                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);" scope="col">Shoe Size</th>
-                            <th scope="col" style="border-left: 1px solid var(--light-blue);"></th>
+                            <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);" scope="col">Shoe Size</th
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($students as $student)
                             <tr>
-                                <td style="border-right: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);"><input style="margin-left: 20px;" type="checkbox"></td>
+                                <td style="border-right: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);"><input style="margin-left: 20px;" type="checkbox" class="studentCheckBox" id="<?= $student['student_id'] ?>" data-student_name="<?= $student['first_name'] . ' ' . $student['last_name'] ?>"></td>
                                 <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);"><?= $student['first_name'] . ' ' . $student['last_name'] ?></td>
                                 <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);"><?= $student['school_supplies'] ?></td>
                                 <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);"><?= $student['t_shirt_size'] ?></td>
@@ -52,6 +51,11 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="d-flex ">
+                    <div class="col d-flex justify-content-start mt-3">
+                        <button type="button" class="btn btn-danger delete-btn">Delete</button>
+                    </div>
+                </div>
             </div>
             <div class="card-list mx-sm-5 pt-4 d-sm-block d-lg-none">
                 <table class="rounded-table w-100">
@@ -84,5 +88,5 @@
 @endsection
 
 @section('script')
-    @vite('resources/js/teacherFunctionality.js')
+    @vite('resources/js/teacher/teacherFunctionality.js')
 @endsection
