@@ -4,7 +4,7 @@ import { slacksSkirt_poloBlouse_table_header, slacksSkirt_poloBlouse_table_body,
          school_supplies_table_header, school_supplies_table_body,
          dataInsertionLayout,
          fetchStudentData, fetchPerSectionLayout, firstModalInsertion,
-         overallLayout
+         overallLayout, dataAndlayoutProcessing
         } from "./layout";
 
 import { showLoadingSpinner, hideLoadingSpinner } from "../authentication";
@@ -137,46 +137,37 @@ function lguFirstModal(gradeLevel, product, data) {
 
         const containerFile = document.querySelector('.choose-file-placeholder');
 
-        secondModalModalBtn.addEventListener('change', () => {
-
+        secondModalModalBtn.addEventListener('change', async () => {
             if(containerFile) containerFile.remove();
 
             const containerData = document.querySelector('.container-data');
+            const spinner = document.querySelector('#loader');
             
             containerData.innerHTML = '';
-            
-            showLoadingSpinner();
+            containerData.style.display = 'none';
+            spinner.style.display = 'block';
 
             if(secondModalModalBtn.value == 'overall') {
                 
                 const studentTotal = sizeTotalComputation(sizeTotals);
                 overallLayout(modalContainerTitle);
                 dataInsertionLayout(product, {data: {studentTotal: studentTotal, sizeTotals: sizeTotals, productHeader: {product1: product1, product2: product2}}});
+
+                spinner.style.display = 'none';
+                containerData.style.display = 'block';
                 
             } 
 
             if(secondModalModalBtn.value == 'per-section') {
-                
-                fetch(`request/student/per_section/${gradeLevel}`)
-                .then(response => response.json())
-                .then(data => {
-                    for(let i = 0; i < data.length; i++) {
-
-                        fetchPerSectionLayout(containerData, {data: data[i], productHeader: {product1: product1, product2: product2}});
-
-                        fetch(`request/section/${gradeLevel}/${data[i].section}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            
-                            fetchStudentData(data.boys, product);
-                            fetchStudentData(data.girls, product);
-                        });
-                    } 
-                });
-                
+                const value = {
+                    containerData: containerData,
+                    spinner: spinner,
+                    product: product,
+                    productHeader: {product1: product1, product2: product2},
+                    gradeLevel: gradeLevel
+                }
+                dataAndlayoutProcessing(value);
             }
-            console.log(containerData);
-            hideLoadingSpinner();
         });
     }
 
@@ -205,7 +196,17 @@ function lguFirstModal(gradeLevel, product, data) {
 
         twoColumnTableLayout(product, {studentData: sizeTotals}, {productHeader: productHeader});
 
+        const containerFile = document.querySelector('.choose-file-placeholder');
         secondModalModalBtn.addEventListener('change', () => {
+
+            if(containerFile) containerFile.remove();
+
+            const containerData = document.querySelector('.container-data');
+            const spinner = document.querySelector('#loader');
+            
+            containerData.innerHTML = '';
+            containerData.style.display = 'none';
+            spinner.style.display = 'block';
 
             if(secondModalModalBtn.value == 'overall') {
 
@@ -213,30 +214,21 @@ function lguFirstModal(gradeLevel, product, data) {
                 
                 overallLayout(modalContainerTitle);
                 dataInsertionLayout(product, {data: {studentTotal: studentTotal, sizeTotals: sizeTotals, productHeader: productHeader}});
+
+                spinner.style.display = 'none';
+                containerData.style.display = 'block';
             }
 
             if(secondModalModalBtn.value == 'per-section') {
 
-                const containerFile = document.querySelector('.per-section-info');
-                containerFile.innerHTML = '';
-
-                fetch(`request/student/per_section/${gradeLevel}`)
-                .then(response => response.json())
-                .then(data => {
-
-                    for(let i = 0; i < data.length; i++) {
-                        fetchPerSectionLayout(containerFile, {data: data[i], productHeader: productHeader});
-
-                        fetch(`request/section/${gradeLevel}/${data[i].section}`)
-
-                        .then(response => response.json())
-                        .then(data => {
-
-                            fetchStudentData(data.boys, product);
-                            fetchStudentData(data.girls, product);
-                        });
-                    } 
-                })
+                const value = {
+                    containerData: containerData,
+                    spinner: spinner,
+                    product: product,
+                    productHeader: productHeader,
+                    gradeLevel: gradeLevel
+                }
+                dataAndlayoutProcessing(value);
             }
         });
     }
@@ -262,36 +254,38 @@ function lguFirstModal(gradeLevel, product, data) {
         });
         twoColumnTableLayout(product, {studentData: {shoeSize: data}}, {productHeader: modalContainerTitle});
 
+        const containerFile = document.querySelector('.choose-file-placeholder');
+
         secondModalModalBtn.addEventListener('change', () => {
+
+            if(containerFile) containerFile.remove();
+            const containerData = document.querySelector('.container-data');
+            const spinner = document.querySelector('#loader');
+            
+            containerData.innerHTML = '';
+            containerData.style.display = 'none';
+            spinner.style.display = 'block';
+
             
             if(secondModalModalBtn.value == 'overall') {
 
                 overallLayout(modalContainerTitle);
                 dataInsertionLayout(product, {data: {shoeSize: data, totalSize: totalSize, totalShoes: totalShoes}});
+
+                spinner.style.display = 'none';
+                containerData.style.display = 'block';
             }
 
             if(secondModalModalBtn.value == 'per-section') {
 
-                const containerFile = document.querySelector('.per-section-info');
-                containerFile.innerHTML = '';
-
-                fetch(`request/student/per_section/${gradeLevel}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log(modalContainerTitle);
-                    for(let i = 0; i < data.length; i++) {
-                        fetchPerSectionLayout(containerFile, {data: data[i], productHeader: modalContainerTitle});
-
-                        fetch(`request/section/${gradeLevel}/${data[i].section}`)
-
-                        .then(response => response.json())
-                        .then(data => {
-
-                            fetchStudentData(data.boys, product);
-                            fetchStudentData(data.girls, product);
-                        });
-                    } 
-                })
+                const value = {
+                    containerData: containerData,
+                    spinner: spinner,
+                    product: product,
+                    productHeader: { productHeader },
+                    gradeLevel: gradeLevel
+                }
+                dataAndlayoutProcessing(value);
             }
         });
     }
@@ -325,36 +319,37 @@ function lguFirstModal(gradeLevel, product, data) {
 
         threeColumnTableLayout(product, {studentData: {schoolSupplies: data, male: maleTotal, female: femaleTotal}}, {productHeader: productHeader});
 
+        const containerFile = document.querySelector('.choose-file-placeholder');
+
         secondModalModalBtn.addEventListener('change', () => {
+
+            if(containerFile) containerFile.remove();
+
+            const containerData = document.querySelector('.container-data');
+            const spinner = document.querySelector('#loader');
+            
+            containerData.innerHTML = '';
+            containerData.style.display = 'none';
+            spinner.style.display = 'block';
             
             if(secondModalModalBtn.value == 'overall') {
 
                 overallLayout(modalContainerTitle);
                 dataInsertionLayout(product, {data: {male: maleTotal, female: femaleTotal}});
+
+                spinner.style.display = 'none';
+                containerData.style.display = 'block';
             }
 
             if(secondModalModalBtn.value == 'per-section') {
-
-                const containerFile = document.querySelector('.per-section-info');
-                containerFile.innerHTML = '';
-
-                fetch(`request/student/per_section/${gradeLevel}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log(product);
-                    for(let i = 0; i < data.length; i++) {
-                        fetchPerSectionLayout(containerFile, {data: data[i], productHeader: modalContainerTitle});
-
-                        fetch(`request/section/${gradeLevel}/${data[i].section}`)
-
-                        .then(response => response.json())
-                        .then(data => {
-
-                            fetchStudentData(data.boys, product);
-                            fetchStudentData(data.girls, product);
-                        });
-                    } 
-                })
+                const value = {
+                    containerData: containerData,
+                    spinner: spinner,
+                    product: product,
+                    productHeader: { productHeader },
+                    gradeLevel: gradeLevel
+                }
+                dataAndlayoutProcessing(value);
             }
         });
     }
@@ -422,5 +417,25 @@ function sizeTotalComputation(sizeTotal) {
     });
 
     return {boysOverallTotal, girlsOverallTotal};
+}
+
+async function processSections(data) {
+  for (let i = 0; i < data.length; i++) {
+    
+    // render the section layout immediately
+    fetchPerSectionLayout(containerData, {
+      data: data[i],
+      productHeader: { product1, product2 }
+    });
+
+    // wait for the fetch to finish before next loop
+    const response = await fetch(`request/section/${gradeLevel}/${data[i].section}`);
+    const sectionData = await response.json();
+
+    fetchStudentData(sectionData.boys, product);
+    fetchStudentData(sectionData.girls, product);
+  }
+
+  console.log("✅ All sections done");
 }
 
