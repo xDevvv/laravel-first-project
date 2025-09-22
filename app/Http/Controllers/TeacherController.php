@@ -56,4 +56,26 @@ class TeacherController extends Controller
 
         return redirect()->route('teacher.studentInformation')->with('add_successfully', 'Added successfully!');
     }
+
+    public function deleteStudents(Request $request) {
+
+        try {
+
+            $ids = $request->input('ids');
+
+            if (!$ids || !is_array($ids)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No students selected.'
+                ]);
+            }
+
+            Students::whereIn('student_id', $ids)->delete();
+            return response()->json(['success' => true]);
+
+        } catch (\Exception $e) {
+            return response()->json(['success' => false]);
+        }
+
+    }
 }
