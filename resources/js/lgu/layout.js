@@ -1,5 +1,4 @@
 export function slacksSkirt_poloBlouse_table_header(productHeader) {
-    console.log(productHeader.product1);
     return `
         <tr>
             <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue); font-size: 12px;" scope="col">Size</th>
@@ -271,7 +270,6 @@ export function fetchStudentData(data, product) {
 }
 
 export function fetchPerSectionLayout(container, {data, productHeader}) {
-    console.log(data);
     let hasTwoProductHeader = (productHeader.product1 && productHeader.product2) ? true : false;
     container.insertAdjacentHTML('beforeend', `
         <div class="container file my-3">
@@ -395,4 +393,32 @@ export function overallLayout(modalContainerTitle) {
             </div>
         </div>    
     `;
+}
+
+
+
+export async function dataAndlayoutProcessing(value) {
+
+    let productHeader1 = value.productHeader.product1;
+    let productHeader2 = value.productHeader.product2;
+    let header = value.productHeader;
+
+    
+    const response = await fetch(`request/student/per_section/${value.gradeLevel}`);
+    const data = await response.json();
+
+    for (let i = 0; i < data.length; i++) {
+        fetchPerSectionLayout(value.containerData, {
+            data: data[i],
+            productHeader: productHeader1 && productHeader2 ? { productHeader1, productHeader2 } : { header } 
+        });
+
+        const sectionResponse = await fetch(`request/section/${value.gradeLevel}/${data[i].section}`);
+        const sectionData = await sectionResponse.json();
+
+        fetchStudentData(sectionData.boys, value.product);
+        fetchStudentData(sectionData.girls, value.product);
+    }
+    value.spinner.style.display = 'none';
+    value.containerData.style.display = 'block';
 }

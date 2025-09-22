@@ -143,7 +143,6 @@ export function studentTableHeader() {
             <table class="rounded-table" style="border-radius: 10px;">
                 <thead class="text-center">
                     <tr>
-                        <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col"></th>
                         <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">Student Name</th>
                         <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">School Supplies</th>
                         <th style="text-align: center; border-inline: 1px solid var(--light-blue); border-bottom: 1px solid var(--light-blue);" scope="col">P.E Shirt Size</th>
@@ -178,7 +177,6 @@ export function studentTableHeader() {
 export function studentTableBody(data) {
     return `
         <tr>
-            <td style="border-right: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);"><input style="margin-left: 20px;" type="checkbox"></td>
             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);">${data.first_name} ${data.last_name}</td>
             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);">${data.school_supplies}</td>
             <td style="text-align: center; border-inline: 1px solid var(--light-blue); border-block: 1px solid var(--light-blue);">${data.t_shirt_size}</td>
