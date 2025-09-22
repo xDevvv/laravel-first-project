@@ -58,8 +58,10 @@ Route::middleware('is_admin_user')->group(function () {
 });
 
 Route::middleware('is_teacher_user')->group(function () {
+    
     // Teacher Request Functionality
     Route::post('/add_student', [TeacherController::class, 'addStudent'])->name('teacher.addStudent');
+    Route::post('/delete-students', [TeacherController::class, 'deleteStudents'])->name('teacher.deleteStudents');
 });
 
 Route::middleware('is_lgu_user')->group(function () {
